@@ -26,7 +26,34 @@ app.get('/users',(req,res)=>{
      res.send(data)
     })
     })
-    
+    app.get('/Article',(req,res)=>{
+      db.collection('Article').find().toArray((err,data)=>{
+      if(err) 
+       res.send('Cannot fetch contacts')
+      else
+      
+       res.send(data)
+      })
+      })
+      app.get('/Fournisseur',(req,res)=>{
+        db.collection('Fournisseur').find().toArray((err,data)=>{
+        if(err) 
+         res.send('Cannot fetch contacts')
+        else
+        
+         res.send(data)
+        })
+        })
+       
+        app.get('/BS/:CA/:Ref',(req,res)=>{
+          db.collection('Fournisseur').find({CodeArticle:req.params.CA,Réference:req.params.Ref}).toArray((err,data)=>{
+          if(err) 
+           res.send('Cannot fetch contacts')
+          else
+          
+           res.send(data)
+          })
+          })
     app.get("/user/:name", (req, res) => {
          db.collection("user").findOne({email: req.params.name}).then((data) => {
             if(err) 
@@ -35,6 +62,7 @@ app.get('/users',(req,res)=>{
             res.send(data)
           });
       });
+      
      
       app.get("/contact/:name", (req, res) => {
         let body = req.body;
@@ -55,8 +83,26 @@ app.get('/users',(req,res)=>{
         res.send('Contact added')
     })
     })
- app.put('/modify_contact/:id',(req,res)=>{
- db.collection('user').updateMany({_id:ObjectID(req.params.id)},
+    app.post('/add_Article',(req,res)=>{
+      let newContact = req.body
+      db.collection('Article').insert(newContact,(err,data)=>{
+      if(err){
+      res.send('cannot add new contact')}
+      else
+      res.send('Contact added')
+  })
+  })
+  app.post('/add_Fournisseur',(req,res)=>{
+    let newContact = req.body
+    db.collection('Fournisseur').insert(newContact,(err,data)=>{
+    if(err){
+    res.send('cannot add new contact')}
+    else
+    res.send('Contact added')
+})
+})
+ app.put('/BL/:FR/:CA',(req,res)=>{
+ db.collection('Fournisseur').updateMany({Réference:req.params.FR,CodeArticle:req.params.CA},
  {$set:{...req.body}},(err,data)=>{
     if(err)
     {res.send('Cannot update contact')
@@ -66,6 +112,7 @@ app.get('/users',(req,res)=>{
  }
  )
  })
+ 
  app.delete('/delete_user/:id',(req,res)=>{
     db.collection('user').remove({_id:ObjectID(req.params.id)},(err,data)=>{
         if(err)

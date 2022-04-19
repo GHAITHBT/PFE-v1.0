@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Login from "./pages/Login";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import About from "./pages/about";
+import About from "./pages/Article";
 import annual from "./pages/annual";
 import Add from "./pages/Add";
 

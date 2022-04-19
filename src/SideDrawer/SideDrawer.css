@@ -1,46 +1,64 @@
-.side-drawer {
-  height: 100%;
-  background: white;
-  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 70%;
-  max-width: 400px;
-  z-index: 200;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease-out;
+html,
+body {
+  margin: 0;
 }
 
-.side-drawer.open {
-  transform: translateX(0);
+#App {
+  font-family: sans-serif;
+  height: 100vh;
 }
 
-.side-drawer ul {
-  height: 100%;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+#page-wrap {
+  text-align: center;
+  overflow: auto;
 }
 
-.side-drawer li {
-  margin: 0.5rem 0;
-}
-
-.side-drawer a {
-  color: #521751;
+.bm-item {
+  display: inline-block;
   text-decoration: none;
-  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #d1d1d1;
 }
 
-.side-drawer a:hover,
-.side-drawer a:active {
-  color: #fa923f;
+.bm-item:hover {
+  color: white;
 }
 
-@media (min-width: 769px) {
-    .side-drawer {
-        display: none;
-    }
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  left: 36px;
+  top: 0px;
+}
+
+.bm-burger-bars {
+  background: #cbd5ff;
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: #bdc3c7;
+}
+
+.bm-menu {
+  background: #c7cff1;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
 }

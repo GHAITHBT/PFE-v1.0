@@ -4,10 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Login1 from './Login';
-
+import Article from './pages/Article'
+import Add from './pages/Add'
+import PrintComponent from './pages/print'
 ReactDOM.render(
   <React.StrictMode>
-    <Login1></Login1>
+<Login1/>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,5 +1,4 @@
 import React from 'react';
-import About from '../pages/about';
 
 import DrawerToggleButton from '../SideDrawer/DrawerToggleButton';
 import './Toolbar.css';
@@ -14,7 +13,7 @@ const toolbar = props => (
         <div className="spacer" />
         <div className="toolbar_navigation-items">
             <ul>
-                <li><a href="/add">Products</a></li>
+                <li><a href="/List_employé">List employé</a></li>
                 <li><a href="/annual">Users</a></li>
                 <li><a href="/Login">Login</a></li>
                 

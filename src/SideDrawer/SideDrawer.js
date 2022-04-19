@@ -1,5 +1,4 @@
 import React from 'react';
-import About from '../pages/about';
 import './SideDrawer.css';
 
 const sideDrawer = props => {
