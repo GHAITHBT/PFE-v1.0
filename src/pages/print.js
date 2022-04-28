@@ -1,20 +1,20 @@
 import React, { useRef } from "react";
 import { Button } from "react-bootstrap";
 import ReactToPrint from "react-to-print";
-import ComponentToPrint from './ComponentToPrint'
 import Article from './Article'
+import PrintBS from "./PRINTBS";
 export default function PrintComponent() {
-  let componentRef = useRef();
+  let componentRef = React.createRef()
 
   return (
     <>
       <div>
         <ReactToPrint
           trigger={() => <Button>Print this out!</Button>}
-          content={() => componentRef}
+          content={() => PrintBS}
         />
 
-        <Article ref={(el) => (componentRef = el)} />
+        <PrintBS ref={(el) => (componentRef = el)} />
       </div>
     </>
   );

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, ModalTitle } from 'react-bootstrap'
+import { Button, Modal, ModalTitle,Table } from 'react-bootstrap'
 import axios from 'axios'
 
-export const Employee = () => {
+export const Clients = () => {
     const [Data, setData] = useState([]);
     const [RowData, SetRowData] = useState([])
     const [ViewShow, SetViewShow] = useState(false)
@@ -24,22 +24,26 @@ export const Employee = () => {
     //Define here local state that store the form Data
     const [fullName, setfullName] = useState("")
     const [email, setemail] = useState("")
-    const [phoneNumber, setphoneNumber] = useState("")
+    const [phoneNumber, setphoneNumber] = useState(0)
     const [password, setpassword] = useState("")
     const [address, setaddress] = useState("")
+    const [Crédit, setCrédit] = useState(0)
+    const [Débit, setDébit] = useState(0)
+    const [Cheque, setCheque] = useState(0)
+
 
     const [Delete,setDelete] = useState(false)
     //Id for update record and Delete
     const [id,setId] = useState("");
-    const GetEmployeeData = () => {
+    const GetClientData = () => {
         //here we will get all employee data
-        const url = 'http://localhost:5001/users'
+        const url = 'http://localhost:5001/Clients'
         axios.get(url)
             .then(response => {
                 const result = response.data;
                 setData(result)
 
-                    console.log(result)
+                   // console.log(parseInt( parseInt(result[0].phoneNumber)+parseInt(result[1].phoneNumber)))
                 
             })
             .catch(err => {
@@ -47,8 +51,8 @@ export const Employee = () => {
             })
     }
     const handleSubmite = () => {
-        const url = 'http://localhost:5001/add_user'
-        const Credentials = { fullName, email, phoneNumber, address ,password}
+        const url = 'http://localhost:5001/Ajouter_Client'
+        const Credentials = { fullName, email, phoneNumber, address ,Débit,Crédit,Cheque}
         axios.post(url, Credentials)
             .then(response => {
                 const result = response.data;
@@ -63,8 +67,8 @@ export const Employee = () => {
     }
     
     const handleEdit = () =>{
-        const url = `http://localhost:5001/modify_contact/${id}`
-        const Credentials = { fullName, email, phoneNumber, address }
+        const url = `http://localhost:5001/EDITClient/${id}`
+        const Credentials = { fullName, email, phoneNumber, address,Débit,Crédit,Cheque}
         axios.put(url, Credentials)
             .then(response => {
                 const result = response.data;
@@ -79,7 +83,7 @@ export const Employee = () => {
     }
     //handle Delete Function 
     const handleDelete = () =>{
-        const url = `http://localhost:5001/delete_user/${id}`
+        const url = `http://localhost:5001/Supp_Client/${id}`
         axios.delete(url)
             .then(response => {
                 const result = response.data;
@@ -99,27 +103,29 @@ export const Employee = () => {
     //call this function in useEffect
     console.log(ViewShow, RowData)
     useEffect(() => {
-        GetEmployeeData();
+        GetClientData();
     }, [])
     return (
-        <div>
-            <div>
+        <div class="p-3 mb-2 bg-gradient-primary text-white" >
+            <div >
                 <div>
                     <Button variant='primary' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
                         Add New Employee
                     </Button>
                 </div>
             </div>
-            <div>
+            <div >
                 <div className='table-responsive'>
-                    <table className='table table-striped table-hover table-bordered'>
+                    <Table bordered variant="dark">
                         <thead>
                             <tr>
                                 <th>fullName</th>
                                 <th>Email</th>
                                 <th>Number</th>
                                 <th>Address</th>
-                                <th>Password</th>
+                                <th>Crédit</th>
+                                <th>Débit</th>
+                                <th>Cheque</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -130,7 +136,11 @@ export const Employee = () => {
                                     <td>{item.email}</td>
                                     <td>{item.phoneNumber}</td>
                                     <td>{item.address}</td>
-                                    <td>{item.password}</td>
+                                    <td>{item.Débit}</td>
+                                    <td>{item.Crédit}</td>
+                                    <td>{item.Cheque}</td>
+
+                                    
                                     <td style={{ minWidth: 190 }}>
                                         <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
                                         <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
@@ -139,7 +149,7 @@ export const Employee = () => {
                                 </tr>
                             )}
                         </tbody>
-                    </table>
+                    </Table>
                 </div>
             </div>
             {/* View Modal */}
@@ -162,14 +172,14 @@ export const Employee = () => {
                                 <input type="email" className='form-control' value={RowData.email} readOnly />
                             </div>
                             <div className='form-group mt-3'>
-                                <input type="text" className='form-control' value={RowData.phoneNumber} readOnly />
+                                <input type="number" className='form-control' value={RowData.phoneNumber} readOnly />
                             </div>
                             
                             <div className='form-group mt-3'>
                                 <input type="text" className='form-control' value={RowData.address} readOnly />
                             </div>
                             <div className='form-group mt-3'>
-                                <input type="text" className='form-control' value={RowData.password} readOnly />
+                                <input type="number" className='form-control' value={RowData.Débit} readOnly />
                             </div>
                             {
                                 Delete && (
@@ -192,7 +202,7 @@ export const Employee = () => {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Add new Employee</Modal.Title>
+                        <Modal.Title>Ajouter Client</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
@@ -203,16 +213,14 @@ export const Employee = () => {
                                 <input type="email" className='form-control' onChange={(e) => setemail(e.target.value)} placeholder="Please enter email" />
                             </div>
                             <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(e) => setphoneNumber(e.target.value)} placeholder="Please enter Number" />
+                                <input type="number" className='form-control' onChange={(e) => setphoneNumber(e.target.value)} placeholder="Please enter Number" />
                             </div>
                            
                             <div className='form-group mt-3'>
                                 <input type="text" className='form-control' onChange={(e) => setaddress(e.target.value)} placeholder="Please enter Address" />
                             </div>
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(e) => setpassword(e.target.value)} placeholder="Please enter Address" />
-                            </div>
-                            <Button type='submit' className='btn btn-success mt-4' onClick={handleSubmite}>Add Employee</Button>
+                            
+                            <Button type='submit' className='btn btn-success mt-4' onClick={handleSubmite}>Ajouter Client</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

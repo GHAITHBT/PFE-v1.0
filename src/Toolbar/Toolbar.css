@@ -15,7 +15,7 @@
 }
 
 .toolbar__logo {
-  margin-left: 1rem;
+  margin-left: 15rem;
 }
 
 .toolbar__logo a {
@@ -61,6 +61,6 @@
   }
 
   .toolbar__logo {
-    margin-left: 0;
+    margin-left: 20;
   }
 }

@@ -4,13 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Login1 from './Login';
-import Article from './pages/Article'
 import Add from './pages/Add'
 import PrintComponent from './pages/print'
+import PrintBS from './pages/PRINTBS'
+import Caisse from './pages/caisse'
+import Clients from './pages/Clients'
+import Facture from'./pages/Facture'
+import BarChart from './pages/Charts'
+import SideNav from './components/Sidebar'
 ReactDOM.render(
   <React.StrictMode>
-<Login1/>
-  </React.StrictMode>,
+<App/> 
+ </React.StrictMode>,
   document.getElementById('root')
 );
 

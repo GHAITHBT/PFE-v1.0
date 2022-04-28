@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Modal, ModalTitle } from 'react-bootstrap'
+import React, { useEffect, useState,useRef,Component } from 'react';
+import { Button, Modal, ModalTitle,Table } from 'react-bootstrap'
 import axios from 'axios'
 import Toolbar from '../Toolbar/Toolbar';
-import DatePicker from "react-datepicker";
+import ReactToPrint from "react-to-print";
 
-const Employee = () => {
-    const customStyles = {
-        content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-        },}
+export const Article = () => {
+    let componentRef = useRef();
     const [Data, setData] = useState([]);
+    const [CAR, setCAR] = useState("");
+var idtest=''
+var CodeA=''
+console.log("codeA now ",CodeA)
+//var idtest=''
     const [DataFour, setDataFour] = useState([]);
+    const [Four, setFour] = useState([]);
     const [DataBS, setDataBS] = useState([]);
     const [Date, setDate] = useState();
-
     const [RowData, SetRowData] = useState([])
     const [ViewShow, SetViewShow] = useState(false)
     const handleViewShow = () => { SetViewShow(true) }
@@ -27,6 +24,12 @@ const Employee = () => {
     const [ViewEdit, SetEditShow] = useState(false)
     const handleEditShow = () => { SetEditShow(true) }
     const hanldeEditClose = () => { SetEditShow(false) }
+    const [ViewListFour, SetListFour] = useState(false)
+    const handleListFour = () => { SetListFour(true) }
+    const hanldeListFourClose = () => { SetListFour(false) }
+    const [ViewEditFR, SetEditShowFR] = useState(false)
+    const handleEditShowFR = () => { SetEditShowFR(true) }
+    const hanldeEditCloseFR = () => { SetEditShowFR(false) }
     //FOr Delete Model
     const [ViewDelete, SetDeleteShow] = useState(false)
     const handleDeleteShow = () => { SetDeleteShow(true) }
@@ -39,14 +42,12 @@ const Employee = () => {
     const [ViewPostfour, SetPostShowfour] = useState(false)
     const handlePostShowfour = () => { SetPostShowfour(true) }
     const hanldePostClosefour = () => { SetPostShowfour(false) }
-
     const [ViewPostBL, SetPostShowBL] = useState(false)
     const handlePostShowBL = () => { SetPostShowBL(true) }
     const hanldePostCloseBL = () => { SetPostShowBL(false) }
     const [ViewPostBS, SetPostShowBS] = useState(false)
     const handlePostShowBS = () => { SetPostShowBS(true) }
     const hanldePostCloseBS = () => { SetPostShowBS(false) }
-
     //Define here local state that store the form Data
     const [fullName, setfullName] = useState("")
     const [email, setemail] = useState("")
@@ -56,6 +57,7 @@ const Employee = () => {
     const [Delete,setDelete] = useState(false)
     //Id for update record and Delete
     const [id,setId] = useState("");
+    const [row,setrow] = useState([]);
     //Define here local state that store the form Data
     const [fournisseur, setfournisseur] = useState("")
     const [Réference, setRéference] = useState("")
@@ -63,16 +65,32 @@ const Employee = () => {
     const [PrixVente, setPrixVente] = useState("")
     const [Quantité, setQuantité] = useState("")
     const [Vente, setVente] = useState("")
-
-
     const [idart, setidart] = useState("")
-
     const [CodeArticle, setCodeArticle] = useState("")
     const [CdArt, setCdArt] = useState("")
-
     const [Description, setDescription] = useState("")
+    const [DescriptionBS, setDescriptionBS] = useState("")
+
     //Id for update record and Delete
     const [idFour,setIdFour] = useState("");
+
+    
+   /************************************************************************************************************/
+    /************************************************************************************************************/
+    function GetArticlebyid ()  {
+        //here we will get all employee data
+        const url = `http://localhost:5001/Articlebyid/${idtest}`
+        axios.get(url)
+            .then(response => {
+                CodeA=response.data.CodeArticle
+                    console.log('CodeA in func',CodeA)
+               console.log("article called",response.data.CodeArticle)
+               GetFournisseurData()
+            })
+           
+        }
+    /************************************************************************************************************/
+    /************************************************************************************************************/
     const GetEmployeeData = () => {
         //here we will get all employee data
         const url = 'http://localhost:5001/Article'
@@ -86,35 +104,73 @@ const Employee = () => {
                 console.log(err)
             })
         }
-        const GetFournisseurData = () => {
+/************************************************************************************************************/
+/********************************************************************************************************/        
+        function GetFournisseurData  ()  {
             //here we will get all employee data
-            const url = 'http://localhost:5001/Fournisseur'
+            const url = `http://localhost:5001/Fournisseur/`+CAR
             axios.get(url)
                 .then(response => {
                     const result = response.data;
-                    setDataFour(result)
-                        console.log(url)
-                    
+                    setFour(result)
+                        console.log('url is ',url)
+                        console.log('car in req',CAR)
+                    console.log('Fournisseur called')
                 })
                 .catch(err => {
                     console.log(err)
                 })
+                
         }
+ /************************************************************************************************************/   /************************************************************************************************************/
+        const AddBS = () => {
+            const url = 'http://localhost:5001/add_BS'
+            const Credentials = { CodeArticle, Description,fournisseur,Quantité}
+            const urlA = `http://localhost:5001/Article/${CodeArticle}`
+            axios.get(urlA)
+            .then(response => {
+                const result = response.data;
+                setDescriptionBS(result.Description)                    
+                   // window.location.reload()
+                   console.log(DescriptionBS)
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        axios.post(url, Credentials)
+        .then(response => {
+            const result = response.data;
+            const { status, message, data } = result;
+            
+            })}
+            
+/************************************************************************************************************/
+/************************************************************************************************************/
         const GetDataBS = () => {
             //here we will get all employee data
             const url = `http://localhost:5001/BS/${CodeArticle}/${Réference}`
+            const urlG = 'http://localhost:5001/BS'
+            
+        
             axios.get(url)
                 .then(response => {
                     const result = response.data;
-DataBS.push(response.data)
-window.reload()
-                        console.log(DataBS)
-                    
+                
+                setCodeArticle(result.CodeArticle)
+                setfournisseur(result.fournisseur)
+                setCodeArticle(result.Quantité)
                 })
-                .catch(err => {
-                    console.log(err)
-                })
-        }
+                AddBS()
+             axios.get(urlG)
+                .then(response => {
+                setDataBS(response.data)
+                    console.log(DataBS)
+            })
+
+                }
+/************************************************************************************************************/
+ /************************************************************************************************************/
     const handleSubmite = () => {
         const url = 'http://localhost:5001/add_Article'
         const Credentials = { CodeArticle, Description}
@@ -131,6 +187,8 @@ window.reload()
             })
            
     }
+    /************************************************************************************************************/
+    /************************************************************************************************************/
     const handleFourn = () => {
         const url = 'http://localhost:5001/add_Fournisseur'
         const Credentials = { fournisseur, Réference,PrixAchat, PrixVente,idart}
@@ -145,6 +203,26 @@ window.reload()
             .catch(err => {
                 console.log(err)
             })}
+ /************************************************************************************************************/
+/****************************************************************************************************/            
+    const handleEditFOUR = () =>{
+        const url = `http://localhost:5001/EDITFOUR/${id}`
+        const Credentials = { fournisseur, Réference, PrixAchat, PrixVente,Quantité,Vente }
+        axios.put(url, Credentials)
+            .then(response => {
+                const result = response.data;
+                const { status, message } = result;
+                
+                    window.location.reload()
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    
+/************************************************************************************************************/
+/****************************************************************************************************/            
     const handleEdit = () =>{
         const url = `http://localhost:5001/modify_contact/${id}`
         const Credentials = { fullName, email, phoneNumber, address }
@@ -160,6 +238,8 @@ window.reload()
                 console.log(err)
             })
     }
+    /************************************************************************************************************/
+    /************************************************************************************************************/
     const handleBL = () =>{
         const url = `http://localhost:5001/BL/${Réference}/${CodeArticle}`
         const Credentials = { CodeArticle, Réference, PrixAchat, PrixVente, Quantité }
@@ -175,8 +255,8 @@ window.reload()
                 console.log(err)
             })
     }
-    //handle Delete Function 
-    const handleDelete = () =>{
+/************************************************************************************************************/
+/************************************************************************************************************/    const handleDelete = () =>{
         const url = `http://localhost:5001/delete_user/${id}`
         axios.delete(url)
             .then(response => {
@@ -194,17 +274,33 @@ window.reload()
                 console.log(err)
             })
     }
+/************************************************************************************************************/
+/************************************************************************************************************/
+    const handleDeleteBS = () =>{
+        const url = `http://localhost:5001/BSDELETE/`
+        axios.delete(url)
+            .then(response => {
+                const result = response.data;
+                const { status, message } = result;
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
     //call this function in useEffect
-    console.log(ViewShow, RowData)
+    //console.log(ViewShow, RowData)
+   
+    
+       
+    
     useEffect(() => {
         GetEmployeeData();
-        GetFournisseurData();
-    }, [])
-    
+       // GetFournisseurData()
+   }, [])
+  
     return (
         <div >
-            <Toolbar/>
-            <div className='row'>
+            <div >
                 <div className='mt-5 mb-4'>
                     <Button variant='primary' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
                         Ajouter Article
@@ -221,59 +317,33 @@ window.reload()
 
                 </div>
             </div>
-            <div className='row'>
+            <div >
                 <div className='table-responsive'>
-                    <table className='table table-striped table-hover table-bordered'>
+                    <Table table table-striped table-hover table-bordered variant="primary">
                         <thead>
                             <tr>
                                 <th>code Article</th>
                                 <th>Description</th>
+                                <th>Quantité Stock</th>
+                                <th>Vente</th>
                                 <th>Fournisseur</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {Data.map((item) =>
+                            {Data?.map((item) =>
                                 <tr key={item._id}>
                                     <td>{item.CodeArticle}</td>
                                     <td>{item.Description}</td>
-                                    <td><table className='table table-striped table-hover table-bordered'>
-                        <thead>
-                        
-                            <tr>
-                            
-                                <th>Fournisseur</th>
-                                <th>Réference</th>
-                                <th>Prix Achat</th>
-                                <th>Prix Vente</th>
-                                <th>Quantité</th>
-                                <th>Vente</th>
-                                <th>Action</th>
+                                    <td>{item.Description}</td>
+                                    <td>{item.Description}</td>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {DataFour.map((item) =>
-                                <tr key={item._id}>
-                                    <td>{item.fournisseur}</td>
-                                    <td>{item.Réference}</td>
-                                    <td>{item.PrixAchat}</td>
-                                    <td>{item.PrixVente}</td>
-                                    <td>{item.Quantité}</td>
-                                    <td>Working on it</td>
-                                    
-                                    <td style={{ minWidth: 190 }}>
-                                        
-                                        <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
-                                        <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table></td>
+                                    <td> <Button id='aj' size='sm' variant='warning' onClick={()=> {handleListFour( SetRowData(item),idtest=item._id,console.log('id',idtest),GetArticlebyid())}}>Afficher les fournisseurs</Button></td>
+
+
                                     <td style={{ minWidth: 190 }}>
                                         <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
-                                        <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='warning' onClick={()=> {handleEditFOUR(SetRowData(item),setId(item._id))}}>Edit</Button>|
                                         <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
                                         
                                     </td>
@@ -282,7 +352,7 @@ window.reload()
                             )}
                         </tbody>
                         
-                    </table>
+                    </Table>
                     
                 </div>
             </div>
@@ -473,25 +543,14 @@ window.reload()
                                 <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Quantité" />
                             </div>
                            
-                            <table className='table table-striped table-hover table-bordered'>
-                        <thead>
+                          
                         
-                            <tr>
-
-                                <th>Article</th>
-                                <th>Fournisseur</th>
-                                <th>Réference</th>
-                                <th>Quantité</th>
-                               
-
-                            </tr>
-                        </thead>
                             <tbody>
                             {DataBS.map((item) =>
                                 <tr key={item._id}>
-                                    <td>Working on it</td>
+                                    <td>{item.CodeArticle}</td>
+                                    <td>{item.Description}</td>
                                     <td>{item.fournisseur}</td>
-                                    <td>{item.Réference}</td>
                                     <td>{item.Quantité}</td>
                                     
                                     <td>
@@ -502,7 +561,6 @@ window.reload()
                                 </tr>
                             )}
                         </tbody>
-                            </table>
                             <div className='form-group mt-3'>
                                 <input type="text" className='form-control' onChange={(a) => setDate(a.target.value)} placeholder="Date" />
                             </div>
@@ -511,11 +569,15 @@ window.reload()
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                    <Button type='submit' className='btn btn-success mt-4' onClick={handleBL}> Valider</Button>
+                    <div>
+        
+      </div>
+                    <Button type='submit' className='btn btn-success mt-4' onClick={handleDeleteBS}> Valider</Button>
 
                         <Button variant='secondary' onClick={hanldePostCloseBS}>Close</Button>
                     </Modal.Footer>
                 </Modal>
+                       
                 </div>
 
                 
@@ -563,8 +625,149 @@ window.reload()
                     </Modal.Footer>
                 </Modal>
             </div>
-        </div>
+        
+ {/*****************************************************************************************************************/} 
+
+           {/* Modal for Edit employee record */}
+           <div className='model-box-view'>
+           <Modal
+               show={ViewEditFR}
+               onHide={hanldeEditCloseFR}
+               backdrop="static"
+               keyboard={false}
+           >
+               <Modal.Header closeButton>
+                   <Modal.Title>Edit Fournisseur</Modal.Title>
+               </Modal.Header>
+               <Modal.Body>
+                   <div>
+                       <div className='form-group'>
+                           <label>Fournisseur</label>
+                           <input type="text" className='form-control' onChange={(e) => setfullName(e.target.value)} placeholder="Fournisseur" defaultValue={RowData.fournisseur}/>
+                       </div>
+                       <div className='form-group mt-3'>
+                           <label>Réference</label>
+                           <input type="email" className='form-control' onChange={(e) => setemail(e.target.value)} placeholder="Réference" defaultValue={RowData.Réference} />
+                       </div>
+                       <div className='form-group mt-3'>
+                           <label>Prix Achat</label>
+                           <input type="text" className='form-control' onChange={(e) => setphoneNumber(e.target.value)} placeholder="Prix Achat" defaultValue={RowData.PrixAchat}/>
+                       </div>
+                      
+                       <div className='form-group mt-3'>
+                           <label>Prix Vente</label>
+                           <input type="text" className='form-control' onChange={(e) => setaddress(e.target.value)} placeholder="Prix Vente" defaultValue={RowData.PrixVente}/>
+                           </div>
+                           <div>
+                           <label>Quantité</label>
+                           <input type="text" className='form-control' onChange={(e) => setaddress(e.target.value)} placeholder="Quantité" defaultValue={RowData.Quantité}/>
+                       </div>
+                       <div>
+                           <label>Vente</label>
+                           <input type="text" className='form-control' onChange={(e) => setaddress(e.target.value)} placeholder="Vente" defaultValue={RowData.Vente}/>
+                       </div>
+                       <Button type='submit' className='btn btn-warning mt-4' onClick={handleEditFOUR}>Edit Fournisseur</Button>
+                   </div>
+               </Modal.Body>
+               <Modal.Footer>
+                   <Button variant='secondary' onClick={hanldeEditCloseFR}>Close</Button>
+               </Modal.Footer>
+           </Modal>
+       </div>
+       {/*****************************************************************************************************************/}
+
+<div className='model-box-view'>
+                <Modal
+                    show={ViewListFour}
+                    onHide={hanldeListFourClose}
+                    backdrop="static"
+                    keyboard={false}
+                    size='lg'
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Liste Fournisseur</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>
+                        <Table table table-striped table-hover table-bordered variant='dark'>
+                        <thead>
+                            <tr>
+                                <th>Fournisseur</th>
+                                <th>Réference</th>
+                                <th>Prix Achat</th>
+                                <th>Prix vente</th>
+                                <th>Quantité</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Four.map((item) =>
+                                <tr key={item._id}>
+                                    <td>{item.fournisseur}</td>
+                                    <td>{item.Réference}</td>
+                                    <td>{item.PrixAchat}</td>
+                                    <td>{item.PrixVente}</td>
+                                    <td>{item.Quantité}</td>
+                                    <td style={{ minWidth: 190 }}>
+                                        <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
+                                        <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <div>
+        
+      </div>
+                    <Button type='submit' className='btn btn-success mt-4' onClick={handleDeleteBS}> Valider</Button>
+
+                        <Button variant='secondary' onClick={hanldeListFourClose}>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                       
+                </div>
+
+                
+{/*****************************************************************************************************************/} 
+  </div> 
     );
 };
 
-export default Employee;
+/*<td>
+                <Table table table-striped table-hover table-bordered variant='dark'>
+                        <thead>
+                        
+                            <tr>
+                            
+                                <th>Fournisseur</th>
+                                <th>Réference</th>
+                                <th>Prix Achat</th>
+                                <th>Prix Vente</th>
+                                <th>Quantité</th>
+                                <th>Vente</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {DataFour.map((item) =>
+                                <tr key={item._id}>
+                                    <td>{item.fournisseur}</td>
+                                    <td>{item.Réference}</td>
+                                    <td>{item.PrixAchat}</td>
+                                    <td>{item.PrixVente}</td>
+                                    <td>{item.Quantité}</td>
+                                    <td>Working on it</td>
+                                    
+                                    <td style={{ minWidth: 190 }}>
+                                        
+                                        <Button size='sm' variant='warning' onClick={()=> {handleEditShowFR(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table></td> */
