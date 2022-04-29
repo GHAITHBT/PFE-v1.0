@@ -1,17 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Login from "./pages/Login";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import annual from "./pages/annual";
-import Add from "./pages/Add";
+import App from "./App";
+import Login from "./pages/Login";
 
-function Login1() {
-  return (
+function Login1() {  return (
     <div>
       <BrowserRouter>
         <Route exact path="/" component={Login} />
-        <Route exact path="/annual" component={annual} />
-        <Route exact path="/ADD" component={Add} />
+        <Route exact path="/App" component={App} />
       </BrowserRouter>
     </div>
   );

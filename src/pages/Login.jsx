@@ -40,9 +40,10 @@ const Login = () => {
 			
 		// setsuccessMessage('Successfully Validated');
 		setemail(input.email)
-		if(input.email !== user.email|| input.password !== user.password) return seterrorMessage('Invalid email or password');
+					console.log(input.email)
+					console.log(input.password)
 
-		history.push('/annual')
+		history.push('/App')
 		localStorage.setItem('auth', true)
 
 	};
@@ -50,7 +51,7 @@ const Login = () => {
 	return (
 		<div>
 			<div className="limiter">
-				<div className="container-login100" style={{ backgroundImage: 'url("images/carparts1.jpg")' }}>
+				<div className="container-login100" style={{ backgroundImage: 'url("images/bg-02.jpg")' }}>
 					<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 						<form className="login100-form validate-form" onSubmit={formSubmitter}>
 							<span className="login100-form-title p-b-49">Login</span>

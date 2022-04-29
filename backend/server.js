@@ -26,6 +26,15 @@ app.get('/users',(req,res)=>{
      res.send(data)
     })
     })
+    app.get('/user/:email',(req,res)=>{
+      db.collection('user').find({email:req.params.email}).toArray((err,data)=>{
+      if(err) 
+       res.send('Cannot fetch contacts')
+      else
+      
+       res.send(data)
+      })
+      })
     app.get('/Article',(req,res)=>{
       db.collection('Article').find().toArray((err,data)=>{
       if(err) 

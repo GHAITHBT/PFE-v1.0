@@ -6,8 +6,10 @@ import { SidebarData } from './Sidebar';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 import { Button } from 'bootstrap';
-
+import {useHistory} from "react-router-dom"
 function Navbar() {
+  const history = useHistory()
+
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
@@ -20,14 +22,18 @@ function Navbar() {
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
-          <AiIcons.AiOutlineLogout>Log Out</AiIcons.AiOutlineLogout><span color='white'>Log Out</span> 
+          <ul><li>
+          <Link to='#' >
+          <AiIcons.AiOutlineLogout style={{marginLeft: '1170px'}}onClick={()=>history.push('/')}/>
+          <span style={{color:'white'}}>Log Out</span> </Link></li></ul>
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
               <Link to='#' className='menu-bars'>
-                <AiIcons.AiOutlineClose />
+              <FaIcons.FaBars /> 
               </Link>
+              <li style={{color:'red'}}>lkfjdzfzoifghfoiehr</li>
             </li>
             {SidebarData.map((item, index) => {
               return (

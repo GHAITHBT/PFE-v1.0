@@ -12,9 +12,10 @@ import Clients from './pages/Clients'
 import Facture from'./pages/Facture'
 import BarChart from './pages/Charts'
 import SideNav from './components/Sidebar'
+import FeaturedInfo from './components/FeaturedInfo'
 ReactDOM.render(
   <React.StrictMode>
-<App/> 
+<Login1/> 
  </React.StrictMode>,
   document.getElementById('root')
 );

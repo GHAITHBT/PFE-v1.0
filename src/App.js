@@ -6,14 +6,14 @@ import {Article} from './pages/Article';
 import {Caisse} from './pages/caisse';
 import {Clients} from './pages/Clients'
 import {Employee} from './pages/Liste_employé'
-
+import FeaturedInfo from './components/FeaturedInfo';
 function App() {
   return (
     <>
       <Router>
         <Navbar />
         <Switch>
-          <Route path='/' exact component={Article} />
+          <Route path='/App' exact component={FeaturedInfo} />
 		  <Route path='/Article' component={Article} />
           <Route path='/Caisse' component={Caisse} />
 		  <Route path='/Client' component={Clients} />
