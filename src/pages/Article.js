@@ -12,8 +12,12 @@ var idtest=''
 var CodeA=''
 console.log("codeA now ",CodeA)
 //var idtest=''
+const [fullscreen, setFullscreen] = useState(true);
+
     const [DataFour, setDataFour] = useState([]);
     const [Four, setFour] = useState([]);
+    const [Adresse, setAdresse] = useState("");
+    const [Téléphone, setTéléphone] = useState(0);
     const [DataBS, setDataBS] = useState([]);
     const [Date, setDate] = useState();
     const [RowData, SetRowData] = useState([])
@@ -79,7 +83,7 @@ console.log("codeA now ",CodeA)
     /************************************************************************************************************/
     function GetArticlebyid ()  {
         //here we will get all employee data
-        const url = `http://localhost:5001/Articlebyid/${idtest}`
+        const url = `http://169.254.160.216:5001/Articlebyid/${idtest}`
         axios.get(url)
             .then(response => {
                 CodeA=response.data.CodeArticle
@@ -93,7 +97,7 @@ console.log("codeA now ",CodeA)
     /************************************************************************************************************/
     const GetEmployeeData = () => {
         //here we will get all employee data
-        const url = 'http://localhost:5001/Article'
+        const url = 'http://169.254.160.216:5001/Article'
         axios.get(url)
             .then(response => {
                 setData(response.data)
@@ -108,7 +112,7 @@ console.log("codeA now ",CodeA)
 /********************************************************************************************************/        
         function GetFournisseurData  ()  {
             //here we will get all employee data
-            const url = `http://localhost:5001/Fournisseur/`+CAR
+            const url = `http://169.254.160.216:5001/Fournisseur/`+CodeA
             axios.get(url)
                 .then(response => {
                     const result = response.data;
@@ -124,9 +128,9 @@ console.log("codeA now ",CodeA)
         }
  /************************************************************************************************************/   /************************************************************************************************************/
         const AddBS = () => {
-            const url = 'http://localhost:5001/add_BS'
+            const url = 'http://169.254.160.216:5001/add_BS'
             const Credentials = { CodeArticle, Description,fournisseur,Quantité}
-            const urlA = `http://localhost:5001/Article/${CodeArticle}`
+            const urlA = `http://169.254.160.216:5001/Article/${CodeArticle}`
             axios.get(urlA)
             .then(response => {
                 const result = response.data;
@@ -149,8 +153,8 @@ console.log("codeA now ",CodeA)
 /************************************************************************************************************/
         const GetDataBS = () => {
             //here we will get all employee data
-            const url = `http://localhost:5001/BS/${CodeArticle}/${Réference}`
-            const urlG = 'http://localhost:5001/BS'
+            const url = `http://169.254.160.216:5001/BS/${CodeArticle}/${Réference}`
+            const urlG = 'http://169.254.160.216:5001/BS'
             
         
             axios.get(url)
@@ -172,7 +176,7 @@ console.log("codeA now ",CodeA)
 /************************************************************************************************************/
  /************************************************************************************************************/
     const handleSubmite = () => {
-        const url = 'http://localhost:5001/add_Article'
+        const url = 'http://169.254.160.216:5001/add_Article'
         const Credentials = { CodeArticle, Description}
         axios.post(url, Credentials)
             .then(response => {
@@ -190,8 +194,8 @@ console.log("codeA now ",CodeA)
     /************************************************************************************************************/
     /************************************************************************************************************/
     const handleFourn = () => {
-        const url = 'http://localhost:5001/add_Fournisseur'
-        const Credentials = { fournisseur, Réference,PrixAchat, PrixVente,idart}
+        const url = 'http://169.254.160.216:5001/add_Fournisseur'
+        const Credentials = { fournisseur, Réference,Adresse, Téléphone,CodeArticle}
         axios.post(url, Credentials)
             .then(response => {
                 const result = response.data;
@@ -202,11 +206,12 @@ console.log("codeA now ",CodeA)
             })
             .catch(err => {
                 console.log(err)
-            })}
+            })
+        handleSubmite()}
  /************************************************************************************************************/
 /****************************************************************************************************/            
     const handleEditFOUR = () =>{
-        const url = `http://localhost:5001/EDITFOUR/${id}`
+        const url = `http://169.254.160.216:5001/EDITFOUR/${id}`
         const Credentials = { fournisseur, Réference, PrixAchat, PrixVente,Quantité,Vente }
         axios.put(url, Credentials)
             .then(response => {
@@ -224,7 +229,7 @@ console.log("codeA now ",CodeA)
 /************************************************************************************************************/
 /****************************************************************************************************/            
     const handleEdit = () =>{
-        const url = `http://localhost:5001/modify_contact/${id}`
+        const url = `http://169.254.160.216:5001/modify_contact/${id}`
         const Credentials = { fullName, email, phoneNumber, address }
         axios.put(url, Credentials)
             .then(response => {
@@ -241,7 +246,7 @@ console.log("codeA now ",CodeA)
     /************************************************************************************************************/
     /************************************************************************************************************/
     const handleBL = () =>{
-        const url = `http://localhost:5001/BL/${Réference}/${CodeArticle}`
+        const url = `http://169.254.160.216:5001/BL/${Réference}/${CodeArticle}`
         const Credentials = { CodeArticle, Réference, PrixAchat, PrixVente, Quantité }
         axios.put(url, Credentials)
             .then(response => {
@@ -257,7 +262,7 @@ console.log("codeA now ",CodeA)
     }
 /************************************************************************************************************/
 /************************************************************************************************************/    const handleDelete = () =>{
-        const url = `http://localhost:5001/delete_user/${id}`
+        const url = `http://169.254.160.216:5001/delete_user/${id}`
         axios.delete(url)
             .then(response => {
                 const result = response.data;
@@ -277,7 +282,7 @@ console.log("codeA now ",CodeA)
 /************************************************************************************************************/
 /************************************************************************************************************/
     const handleDeleteBS = () =>{
-        const url = `http://localhost:5001/BSDELETE/`
+        const url = `http://169.254.160.216:5001/BSDELETE/`
         axios.delete(url)
             .then(response => {
                 const result = response.data;
@@ -299,34 +304,33 @@ console.log("codeA now ",CodeA)
    }, [])
   
     return (
-        <div >
-            <div >
-                <div className='mt-5 mb-4'>
-                    <Button variant='primary' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
+        <div>
+            <div>
+                <div  style={{marginLeft: '390px',marginTop: '10px'}}>
+                    <Button variant='dark' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
                         Ajouter Article
                     </Button>
-                    <Button variant='secondary' onClick={() => { handlePostShowfour() }}><i className='fa fa-plu'></i>
-                        Ajouter Fournisseur
-                    </Button>
-                    <Button variant='warning' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
+                   
+                    
+                    <span style={{marginLeft: '30px'}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
                     Bon Livraison
-                    </Button>
-                    <Button variant='warning' onClick={() => { handlePostShowBS() }}><i className='fa fa-plu'></i>
+                    </Button></span>
+                    <span style={{marginLeft: '30px'}}>  <Button variant='dark' onClick={() => { handlePostShowBS() }}><i className='fa fa-plu'></i>
                     Bon de sortie
-                    </Button>
+                    </Button></span>
 
                 </div>
             </div>
             <div >
                 <div className='table-responsive'>
-                    <Table table table-striped table-hover table-bordered variant="primary">
+                    <table className='table table-striped table-hover table-bordered'>
                         <thead>
                             <tr>
-                                <th>code Article</th>
-                                <th>Description</th>
+                                <th >code Article</th>
+                                <th >Description</th>
                                 <th>Quantité Stock</th>
                                 <th>Vente</th>
-                                <th>Fournisseur</th>
+                                <th >Fournisseur</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -338,22 +342,22 @@ console.log("codeA now ",CodeA)
                                     <td>{item.Description}</td>
                                     <td>{item.Description}</td>
 
-                                    <td> <Button id='aj' size='sm' variant='warning' onClick={()=> {handleListFour( SetRowData(item),idtest=item._id,console.log('id',idtest),GetArticlebyid())}}>Afficher les fournisseurs</Button></td>
+                                    <td> <Button id='aj' size='sm' variant='dark' onClick={()=> {handleListFour( SetRowData(item),idtest=item._id,console.log('id',idtest),GetArticlebyid())}}>Afficher les fournisseurs</Button></td>
 
 
                                     <td style={{ minWidth: 190 }}>
-                                        <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
-                                        <Button size='sm' variant='warning' onClick={()=> {handleEditFOUR(SetRowData(item),setId(item._id))}}>Edit</Button>|
-                                        <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
-                                        
+                                       <center>
+                                        <Button size='sm' variant='secondary' onClick={()=> {handleEditFOUR(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='secondary' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>
+                                        </center>
                                     </td>
                                     
                                 </tr>
                             )}
                         </tbody>
                         
-                    </Table>
-                    
+                    </table>
+                   
                 </div>
             </div>
             {/* View Modal */}
@@ -404,20 +408,59 @@ console.log("codeA now ",CodeA)
                     onHide={hanldePostClose}
                     backdrop="static"
                     keyboard={false}
+                    size="lg"
                 >
                     <Modal.Header closeButton>
                         <Modal.Title>Ajouter Article</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <div>
-                            <div className='form-group'>
-                                <input type="text" className='form-control' onChange={(e) => setCodeArticle(e.target.value)} placeholder="Please enter Name" />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="email" className='form-control' onChange={(e) => setDescription(e.target.value)} placeholder="Please enter email" />
-                            </div>
-                            <Button type='submit' className='btn btn-success mt-4' onClick={handleSubmite}>Add Employee</Button>
-                        </div>
+                        <Table>
+                        <tr>
+                                <th> 
+                                Article
+                            
+                                 </th>
+                                 <th>
+                                 Fournisseur
+                                 </th>
+                             </tr> 
+                            <tr>
+                                <td> 
+                                <input type="text" className='form-control' onChange={(e) => setCodeArticle(e.target.value)} placeholder="Code Article" />
+                            
+                                 </td>
+                                 <td>
+                                 <input type="text" className='form-control' onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
+                                 </td>
+                             </tr>  
+                            <tr>
+                            
+                                <td>       
+                                 <input type="email" className='form-control' onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+                                 </td>
+                                 <td>
+                                <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" />
+                                </td>
+                                <td>
+                                <input type="email" className='form-control' onChange={(a) => setAdresse(a.target.value)} placeholder="Adresse" />
+                         </td>
+                        </tr>
+                            <tr>
+                                <td>
+                                <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Prix Vente" />
+                                </td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Téléphone" /></td>
+                                </tr>
+                            
+                           
+                            <Button type='submit' className='btn btn-success mt-4' onClick={handleFourn}> Ajouter</Button>
+                        
+                        </Table>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={hanldePostClose}>Close</Button>
@@ -445,16 +488,13 @@ console.log("codeA now ",CodeA)
                                 <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
                             </div>
                             <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" />
+                                <input type="text" className='form-control' onChange={(a) => setAdresse(a.target.value)} placeholder="Adresse" />
                             </div>
                            
                             <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Prix Vente" />
+                                <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Téléphone" />
                             </div>
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(a) => setidart(a.target.value)} placeholder="Prix Vente" />
-                            </div>
-                           
+                            
                             <Button type='submit' className='btn btn-success mt-4' onClick={handleFourn}> Ajouter Fournisseur</Button>
                         </div>
                     </Modal.Body>
@@ -475,30 +515,75 @@ console.log("codeA now ",CodeA)
                     onHide={hanldePostCloseBL}
                     backdrop="static"
                     keyboard={false}
-                >
+                    size="xl"
+                       >
                     <Modal.Header closeButton>
                         <Modal.Title>Bon Livraison</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            <div className='form-group'>
-                                <input type="text" className='form-control' onChange={(a) => setCodeArticle(a.target.value)} placeholder="Code Article" />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference Fournisseur" />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" />
-                            </div>
-                           
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Prix Vente" />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' onChange={(a) => setQuantité(a.target.value)} placeholder="Quantité" />
-                            </div>
-                           
-                           
+                        <Table>
+                       
+                                
+                            <tr>
+                                <td> 
+                                <input type="text" className='form-control' onChange={(e) => setCodeArticle(e.target.value)} placeholder="N° " />
+                            
+                                 </td>
+                                 </tr>
+                                 <td>
+                                 <input type="text" className='form-control' onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
+                                 </td>
+                            <tr>
+                            
+                               
+                                 <td>
+                                <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                                <td>
+                                <input type="email" className='form-control' onChange={(a) => setAdresse(a.target.value)} placeholder="Adresse" />
+                         </td>
+                        </tr>
+                            <tr>
+                                
+                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Téléphone" /></td>
+                                </tr>
+                                </Table>
+                                <Table>
+                                <tr><th>Article</th></tr>
+                                <tr>
+                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Code Article" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Description" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Prix Achat" /></td>
+                                </tr>
+                            
+                                <tbody>
+                            {Data?.map((item) =>
+                                <tr key={item._id}>
+                                    <td>{item.CodeArticle}</td>
+                                    <td>{item.Description}</td>
+                                    <td>{item.Description}</td>
+                                    <td>{item.Description}</td>
+
+                                    <td> <Button id='aj' size='sm' variant='dark' onClick={()=> {handleListFour( SetRowData(item),idtest=item._id,console.log('id',idtest),GetArticlebyid())}}>Afficher les fournisseurs</Button></td>
+
+
+                                    <td style={{ minWidth: 190 }}>
+                                       <center>
+                                        <Button size='sm' variant='secondary' onClick={()=> {handleEditFOUR(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='secondary' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>
+                                        </center>
+                                    </td>
+                                    
+                                </tr>
+                            )}
+                        </tbody>
+                            <Button type='submit' className='btn btn-success mt-4' onClick={handleFourn}> Ajouter</Button>
+                        
+                        </Table>
                             <Button type='submit' className='btn btn-success mt-4' onClick={handleBL}> Valider</Button>
                         </div>
                     </Modal.Body>
@@ -694,9 +779,8 @@ console.log("codeA now ",CodeA)
                             <tr>
                                 <th>Fournisseur</th>
                                 <th>Réference</th>
-                                <th>Prix Achat</th>
-                                <th>Prix vente</th>
-                                <th>Quantité</th>
+                                <th>Adresse</th>
+                                <th>Téléphone</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -705,9 +789,8 @@ console.log("codeA now ",CodeA)
                                 <tr key={item._id}>
                                     <td>{item.fournisseur}</td>
                                     <td>{item.Réference}</td>
-                                    <td>{item.PrixAchat}</td>
-                                    <td>{item.PrixVente}</td>
-                                    <td>{item.Quantité}</td>
+                                    <td>{item.Adresse}</td>
+                                    <td>{item.Téléphone}</td>
                                     <td style={{ minWidth: 190 }}>
                                         <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
                                         <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
@@ -720,10 +803,8 @@ console.log("codeA now ",CodeA)
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                    <div>
-        
-      </div>
-                    <Button type='submit' className='btn btn-success mt-4' onClick={handleDeleteBS}> Valider</Button>
+                    
+                    <Button type='submit' className='btn btn-success mt-4' onClick={handlePostShowfour}> Ajouter Founisseur</Button>
 
                         <Button variant='secondary' onClick={hanldeListFourClose}>Close</Button>
                     </Modal.Footer>

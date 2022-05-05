@@ -12,10 +12,10 @@ const [ID,setId]=useState()
 const [RowData, SetRowData] = useState([])
 const [Delete,setDelete] = useState(false)
 const [val,setVal]=useState()
-
+var des=""
 const [Data, setData] = useState([]);
 const [Remise, setRemise] = useState();
-const [Montantblabla, setMontantblabla] = useState(0);
+var Montantblabla;
 //const Date =`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`
 const current = new Date();
 const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()} ${current.getHours()}:${current.getMinutes()}`;
@@ -29,11 +29,33 @@ const [Prix, setPrix] = useState(0);
 const [ViewShow, SetViewShow] = useState(false)
     const handleViewShow = () => { SetViewShow(true) }
     const hanldeViewClose = () => { SetViewShow(false) }
+/***************************************************************************************/
+     const EditQuantité = async()=>{
+        const Total= async()=>{
+            /* for (let i = 0; i < Data.length-1; i++) {
+                 // setTotalM(parseFloat(Data[i].Prix)+parseFloat(Data[i].Prix))  
+                 setMontant(parseFloat(Montant)+parseFloat(Data[i].Prix))
+                  console.log("TOTAL",Data[i].QuantitéVN)}*/
+              await   Data.forEach(element => {
+                     Montantblabla = (parseFloat(parseFloat(Montantblabla)+parseFloat(element.Prix)))
+                     console.log("TOTAL foreach",Montantblabla)})
+         
+         }
+        const url2 = 'http://169.254.160.216:5001/Edit'
+        const Credentials = {QuantitéVN}
+       await axios.put(url2, Credentials)
+.then(response => {
+    const result = response.data;
+    const { status, message, data } = result;
+    
+    })
+    handleDeleteCaisse()
+    }
      /***************************************************************************************/
      const ADDArch = async()=>{
-        const url2 = 'http://localhost:5001/Archive'
+        const url2 = 'http://169.254.160.216:5001/Archive'
         const Credentials = {Data,date}
-        axios.post(url2, Credentials)
+       await axios.post(url2, Credentials)
 .then(response => {
     const result = response.data;
     const { status, message, data } = result;
@@ -42,20 +64,20 @@ const [ViewShow, SetViewShow] = useState(false)
     handleDeleteCaisse()
     }
     /*************************************************************************************/
-const GETDESC = async()=>{
-    const urlA = `http://localhost:5001/Article/${CodeArticle}`   
-    axios.get(urlA)
+    async function GETDESC(){
+    const urlA = `http://169.254.160.216:5001/Article/${CodeArticle}`   
+   await axios.get(urlA)
       .then(response => {
           const result = response.data;
-          setDescription(result.Description)
+          des=result.Description
           
           
       })}
       /***************************************************************************************/
       const ADD = async()=>{
-        const url2 = 'http://localhost:5001/add_CAISSE'
+        const url2 = 'http://169.254.160.216:5001/add_CAISSE'
         const Credentials = {CodeArticle,Description, Fournisseur, Prix,QuantitéVN}
-        axios.post(url2, Credentials)
+      await  axios.post(url2, Credentials)
 .then(response => {
     const result = response.data;
     const { status, message, data } = result;
@@ -64,8 +86,8 @@ const GETDESC = async()=>{
     }
     /***************************************************************************************** */
 const GetFRData =async () => {
-       const url = `http://localhost:5001/CAISSE/${CodeArticle}/${Fournisseur}`   
-      axios.get(url)
+       const url = `http://169.254.160.216:5001/CAISSE/${CodeArticle}/${Fournisseur}`   
+     await axios.get(url)
         .then(response => {
             const result = response.data;
             console.log("DATA Fournisseur",response.data)
@@ -75,8 +97,8 @@ const GetFRData =async () => {
 }
 /******************************************************************************************************* */
 const GetDataBS = async () => {
-    const urlg = 'http://localhost:5001/CAISSE'
-     axios.get(urlg)
+    const urlg = 'http://169.254.160.216:5001/CAISSE'
+   await  axios.get(urlg)
     .then(response => {
         const result = response.data;
         setData(result)                    
@@ -93,8 +115,8 @@ const Total= async()=>{
         // setTotalM(parseFloat(Data[i].Prix)+parseFloat(Data[i].Prix))  
         setMontant(parseFloat(Montant)+parseFloat(Data[i].Prix))
          console.log("TOTAL",Data[i].QuantitéVN)}*/
-        Data.forEach(element => {
-            setMontantblabla(parseFloat(parseFloat(Montantblabla)+parseFloat(element.QuantitéVN)))
+     await   Data.forEach(element => {
+            Montantblabla = (parseFloat(parseFloat(Montantblabla)+parseFloat(element.Prix)))
             console.log("TOTAL foreach",Montantblabla)})
 
 }
@@ -104,7 +126,7 @@ const Click = async()=>{
     console.log(Fournisseur)
     GetFRData()
     GETDESC()
-    ADD()
+    ADD(GetDataBS())
     GetDataBS()
     Total()
    setVal()
@@ -120,7 +142,7 @@ const Click = async()=>{
     Total()
 }, [])*/
 const handleDeleteCaisse = () =>{
-    const url = `http://localhost:5001/CAISSEDELETE`
+    const url = `http://169.254.160.216:5001/CAISSEDELETE`
     axios.delete(url)
         .then(response => {
             const result = response.data;
@@ -132,7 +154,7 @@ const handleDeleteCaisse = () =>{
 }
 /****************************************************************************************************************/
 const handleDelete = () =>{
-    const url = `http://localhost:5001/Supp_Article_Caisse/${ID}`
+    const url = `http://169.254.160.216:5001/Supp_Article_Caisse/${ID}`
     axios.delete(url)
         .then(response => {
             const result = response.data;
@@ -144,25 +166,25 @@ const handleDelete = () =>{
 return(
     <div>
          
-    <Table striped bordered hover variant="dark">
+    <Table striped bordered hover variant="info">
 
-    <tr  class="p-3 mb-2 bg-dark text-white">
+    <tr  class="p-3 mb-2 bg-secondary text-white">
       <td style={{'width': '500px'}}><b>CodeArticle</b></td>
       <td><input type="text" className='form-control' placeholder='Code Article' value={val} onChange={(e) => setCodeArticle(e.target.value)+GetDataBS()+GetFRData()}/></td>
     </tr>
-    <tr class="p-3 mb-2 bg-primary text-white">
-      <td><b>Fournisseur</b></td>
+    <tr class="p-3 mb-2 bg-info text-white">
+      <td><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Fournisseur</span></b></td>
       <td><input type="text" className='form-control' placeholder='Fournisseur 'value={val} onChange={(e) => setfournisseur(e.target.value)+GetDataBS()+GetFRData()} /></td>
     </tr>
-    <tr class="p-3 mb-2 bg-dark text-white">
-      <td><b>Quantité</b></td>
+    <tr class="p-3 mb-2 bg-secondary text-white">
+      <td><b><span style={{fontFamily:"lucida grande",fontSize:"20px"}}> Quantité </span></b></td>
       <td><input type="number" className='form-control' placeholder='Quantité ' value={val} onChange={(e) => setQuantitéVN(e.target.value)+GetDataBS()+GetFRData()}/></td>
     </tr>
-    <tr class="p-3 mb-2 bg-primary text-white">
-      <td><b>Remise %</b></td>
+    <tr class="p-3 mb-2 bg-info text-white">
+      <td><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Remise %</span></b></td>
       <td><input type="text" className='form-control' placeholder='Remise % 'value={val} onChange={(e) => setRemise(e.target.value)+GetDataBS()+GetFRData()} /></td>
     </tr>
-    <tr  class="p-3 mb-2 bg-dark text-dark">
+    <tr  class="p-3 mb-2 bg-secondary text-dark">
     <Table striped  hover variant="warning">
     <tbody style={{'height': '310px', 'overflow':'scroll', 'display': 'block'}}>
 
@@ -208,8 +230,8 @@ return(
                     <marquee> <b class="text-warning">TW KI NETFAKER NUMRO TW N7OTO</b></marquee><br/></td>
                    
     </tr>
-    <tr class="p-3 mb-2 bg-primary text-white">
-    <td><b>Total sans remise</b><br/>{TotalM}</td>
+    <tr class="p-3 mb-2 bg-info text-white">
+    <td><b>Total sans remise</b><br/>{Montantblabla}</td>
     <td><b>Total avec remise</b><input type="text" className='form-control' placeholder='0.0'  readOnly/></td>
     </tr>
 </Table>

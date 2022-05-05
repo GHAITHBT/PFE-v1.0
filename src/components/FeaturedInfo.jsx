@@ -3,7 +3,7 @@ import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
 
 export default function FeaturedInfo() {
   return (
-    <div className="featured">
+    <div className="featured" style={{ marginTop: `40px` }}>
       <div className="featuredItem">
         <span className="featuredTitle">Revanue</span>
         <div className="featuredMoneyContainer">

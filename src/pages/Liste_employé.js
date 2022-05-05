@@ -33,7 +33,7 @@ export const Employee = () => {
     const [id,setId] = useState("");
     const GetEmployeeData = () => {
         //here we will get all employee data
-        const url = 'http://localhost:5001/users'
+        const url = 'http://169.254.160.216:5001/users'
         axios.get(url)
             .then(response => {
                 const result = response.data;
@@ -47,7 +47,7 @@ export const Employee = () => {
             })
     }
     const handleSubmite = () => {
-        const url = 'http://localhost:5001/add_user'
+        const url = 'http://169.254.160.216:5001/add_user'
         const Credentials = { fullName, email, phoneNumber, address ,password}
         axios.post(url, Credentials)
             .then(response => {
@@ -63,7 +63,7 @@ export const Employee = () => {
     }
     
     const handleEdit = () =>{
-        const url = `http://localhost:5001/modify_contact/${id}`
+        const url = `http://169.254.160.216:5001/modify_contact/${id}`
         const Credentials = { fullName, email, phoneNumber, address }
         axios.put(url, Credentials)
             .then(response => {
@@ -79,7 +79,7 @@ export const Employee = () => {
     }
     //handle Delete Function 
     const handleDelete = () =>{
-        const url = `http://localhost:5001/delete_user/${id}`
+        const url = `http://169.254.160.216:5001/delete_user/${id}`
         axios.delete(url)
             .then(response => {
                 const result = response.data;

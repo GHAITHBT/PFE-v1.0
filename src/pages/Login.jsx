@@ -53,7 +53,7 @@ const Login = () => {
 			<div className="limiter">
 				<div className="container-login100" style={{ backgroundImage: 'url("images/bg-02.jpg")' }}>
 					<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-						<form className="login100-form validate-form" onSubmit={formSubmitter}>
+						<form className="login100-form validate-form" onSubmit={history.push('/App')}>
 							<span className="login100-form-title p-b-49">Login</span>
 							{errorMessage.length > 0 && <div style={{ marginBottom: '10px', color: 'red' }}>{errorMessage}</div>}
 							{successMessage.length > 0 && (

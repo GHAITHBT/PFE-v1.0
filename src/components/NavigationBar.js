@@ -20,20 +20,22 @@ function Navbar() {
         <div className='navbar'>
         
           <Link to='#' className='menu-bars'>
-            <FaIcons.FaBars onClick={showSidebar} />
+            <FaIcons.FaBars style={{color:"white"}} onClick={showSidebar} />
           </Link>
-          <ul><li>
+          <ul>
+            <span style={{color:'white',fontSize:"30px",marginLeft:"500px",fontFamily:"Brush Script MT"}}>T.E.A</span>
+            <li>
           <Link to='#' >
-          <AiIcons.AiOutlineLogout style={{marginLeft: '1170px'}}onClick={()=>history.push('/')}/>
+          <AiIcons.AiOutlineLogout style={{marginLeft: '1160px',color:"black"}}onClick={()=>history.push('/')}/>
           <span style={{color:'white'}}>Log Out</span> </Link></li></ul>
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>
             <li className='navbar-toggle'>
-              <Link to='#' className='menu-bars'>
-              <FaIcons.FaBars /> 
+              <Link to='#' >
+              <FaIcons.FaBars style={{fontSize:"20px"}}/> 
               </Link>
-              <li style={{color:'red'}}>lkfjdzfzoifghfoiehr</li>
+              <li style={{color:'White'}}>TOUIHRI EQUIPEMENT AUTO</li>
             </li>
             {SidebarData.map((item, index) => {
               return (

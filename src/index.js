@@ -7,12 +7,14 @@ import Login1 from './Login';
 import Add from './pages/Add'
 import PrintComponent from './pages/print'
 import PrintBS from './pages/PRINTBS'
-import Caisse from './pages/caisse'
+import {Caisse} from './pages/caisse'
 import Clients from './pages/Clients'
 import Facture from'./pages/Facture'
 import BarChart from './pages/Charts'
 import SideNav from './components/Sidebar'
 import FeaturedInfo from './components/FeaturedInfo'
+import {Article} from './pages/Article'
+import {Employee} from './pages/Liste_employé'
 ReactDOM.render(
   <React.StrictMode>
 <Login1/> 
