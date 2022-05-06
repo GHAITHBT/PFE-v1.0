@@ -15,9 +15,11 @@ import SideNav from './components/Sidebar'
 import FeaturedInfo from './components/FeaturedInfo'
 import {Article} from './pages/Article'
 import {Employee} from './pages/Liste_employé'
+import EMPINTER from './EMPINTERFACE'
+import {BL} from'./pages/Bon_Livraison'
 ReactDOM.render(
   <React.StrictMode>
-<Login1/> 
+<App/> 
  </React.StrictMode>,
   document.getElementById('root')
 );

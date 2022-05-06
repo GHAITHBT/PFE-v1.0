@@ -1,21 +1,18 @@
 import React from 'react';
 import './App.css';
-import Navbar from './components/NavigationBar';
+import Navbar from './components/NavigationBarEmp';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {Article} from './pages/Article';
 import {Caisse} from './pages/caisse';
 import {Clients} from './pages/Clients'
 import {Employee} from './pages/Liste_employé'
 import FeaturedInfo from './components/FeaturedInfo';
-import Login1 from './Login'
-function App() {
+function EMPINTER() {
   return (
     <>
       <Router>
         <Navbar />
         <Switch>
-       
-
           <Route path='/Acceuil' exact component={FeaturedInfo} />
 		  <Route path='/Article' component={Article} />
           <Route path='/Caisse' component={Caisse} />
@@ -27,4 +24,4 @@ function App() {
   );
 }
 
-export default App;
+export default EMPINTER;

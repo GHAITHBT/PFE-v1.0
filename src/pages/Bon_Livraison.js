@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, ModalTitle } from 'react-bootstrap'
+import { Button, Modal, ModalTitle,Table } from 'react-bootstrap'
 import axios from 'axios'
 
-export const Employee = () => {
+export const BL = () => {
     const [Data, setData] = useState([]);
     const [RowData, SetRowData] = useState([])
     const [ViewShow, SetViewShow] = useState(false)
@@ -34,7 +34,7 @@ export const Employee = () => {
     const [id,setId] = useState("");
     const GetEmployeeData = () => {
         //here we will get all employee data
-        const url = 'http://169.254.160.216:5001/users'
+        const url = 'http://169.254.160.216:5001/BLLIST'
         axios.get(url)
             .then(response => {
                 const result = response.data;
@@ -47,57 +47,10 @@ export const Employee = () => {
                 console.log(err)
             })
     }
-    const handleSubmite = () => {
-        const url = 'http://169.254.160.216:5001/add_user'
-        const Credentials = { fullName, email, phoneNumber, address ,password,Role}
-        axios.post(url, Credentials)
-            .then(response => {
-                const result = response.data;
-                const { status, message, data } = result;
-                
-                    window.location.reload()
-                
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
     
-    const handleEdit = () =>{
-        const url = `http://169.254.160.216:5001/modify_contact/${id}`
-        const Credentials = { fullName, email, phoneNumber, address }
-        axios.put(url, Credentials)
-            .then(response => {
-                const result = response.data;
-                const { status, message } = result;
-                
-                    window.location.reload()
-                
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-    //handle Delete Function 
-    const handleDelete = () =>{
-        const url = `http://169.254.160.216:5001/delete_user/${id}`
-        axios.delete(url)
-            .then(response => {
-                const result = response.data;
-                const { status, message } = result;
-                if (status !== 'SUCCESS') {
-                    alert(message, status)
-                }
-                else {
-                    alert(message)
-                    window.location.reload()
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
-    //call this function in useEffect
+    
+   
+    
     console.log(ViewShow, RowData)
     useEffect(() => {
         GetEmployeeData();
@@ -105,39 +58,35 @@ export const Employee = () => {
     return (
         <div>
             <div>
-                <div>
-                    <Button variant='dark' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
-                        Add New Employee
-                    </Button>
-                </div>
+               
             </div>
             <div>
                 <div className='table-responsive'>
                     <table className='table table-striped table-hover table-bordered'>
                         <thead>
                             <tr>
-                                <th>fullName</th>
-                                <th>Email</th>
-                                <th>Number</th>
-                                <th>Address</th>
-                                <th>Password</th>
-                                <th>Role</th>
+                                <th>N°</th>
+                                <th>Date de bon de Livraison</th>
+                                <th>Date de creation</th>
+                                <th>Fournisseur</th>
+                                <th>Réference</th>
+                                <th>Matricule fiscale</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {Data.map((item) =>
                                 <tr key={item._id}>
-                                    <td>{item.fullName}</td>
-                                    <td>{item.email}</td>
+                                    <td>{item.NUMBL}</td>
+                                    <td>{item.DateBL}</td>
                                     <td>{item.phoneNumber}</td>
-                                    <td>{item.address}</td>
-                                    <td>{item.password}</td>
+                                    <td>{item.fournisseur}</td>
+                                    <td>{item.Réference}</td>
                                     <td>{item.Role}</td>
                                     <td style={{ minWidth: 190 }}>
-                                        <Button size='sm' variant='dark' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
-                                        <Button size='sm' variant='dark' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
-                                        <Button size='sm' variant='dark' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
+                                        <Button size='sm' variant='dark' onClick={() => { handleViewShow(SetRowData(item)) }}>ouvrir</Button>|
+                                        <Button size='sm' variant='dark' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>
+                                        
                                     </td>
                                 </tr>
                             )}
@@ -154,30 +103,80 @@ export const Employee = () => {
                     keyboard={false}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>View Employee Data</Modal.Title>
+                        <Modal.Title>Bon De Livraison</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            <div className='form-group'>
-                                <input type="text" className='form-control' value={RowData.fullName} readOnly />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="email" className='form-control' value={RowData.email} readOnly />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' value={RowData.phoneNumber} readOnly />
-                            </div>
+                        <Table>
+                       
+                                
+                       <tr>
+                           <td> 
+                              <b> Numéro de bon </b>
+                           <input type="text" className='form-control'  placeholder="N° " value={RowData.NUMBL} readOnly/>
+                       
+                            </td>
+                            <td> 
+                                <b>Date</b>
+                           <input type="text" className='form-control'  placeholder="Date"value={RowData.DateBL}readOnly />
+                       
+                            </td>
+                            </tr>
                             
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' value={RowData.address} readOnly />
-                            </div>
-                            <div className='form-group mt-3'>
-                                <input type="text" className='form-control' value={RowData.password} readOnly />
-                            </div>
+                            <td colSpan={2}>
+                           <b> Fournisseur</b>
+                            <input type="text" className='form-control' value={RowData.fournisseur}  placeholder="Fournisseur" readOnly />
+                            </td>
+                       <tr>
+                       
+                          
+                            <td colSpan={2}>
+                              <b>  Réference </b>
+                           <input type="email" className='form-control' value={RowData.Réference}  placeholder="Réference" readOnly />
+                           </td>
+                       </tr>
+                       <tr>
+                           
+                           <td colSpan={2}>
+                              <b> Adresse</b>
+                           <input type="email" className='form-control'  value={RowData.Adresse} placeholder="Adresse" readOnly />
+                    </td>
+                   </tr>
+                       <tr>
+                           
+                           <td colSpan={2}> <b>Numéro Téléphone</b>
+                           <input type="text" className='form-control'  value={RowData.Téléphone} placeholder="Téléphone"readOnly /></td>
+                           </tr>
+                           </Table>
+                           <Table>
+                            <thead>
+                            <tr>
+                                <th >code Article</th>
+                                <th >Description</th>
+                                <th>Prix Achat</th>
+                                <th>Quantité </th>
+                                
+                            </tr>
+                        </thead>
+                                <tbody>
+                            {RowData.Articles?.map((item) =>
+                                <tr key={item._id}>
+                                    <td>{item[0]}</td>
+                                    <td>{item[1]}</td>
+                                    <td>{item[2]}</td>
+                                    <td>{item.[3]}</td>
+                                    
+                                    
+                                </tr>
+                            )}
+                        </tbody>
+                           
+                        
+                        </Table>
                             
                             {
                                 Delete && (
-                                    <Button type='submit' className='btn btn-danger mt-4' onClick={handleDelete}>Delete Employee</Button>
+                                    <Button type='submit' className='btn btn-danger mt-4' >Delete Employee</Button>
                                 )
                             }
                         </div>
@@ -223,7 +222,7 @@ export const Employee = () => {
 
                             </div>
                             
-                            <Button type='submit' className='btn btn-success mt-4' onClick={handleSubmite}>Add Employee</Button>
+                            <Button type='submit' className='btn btn-success mt-4' >Add Employee</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
@@ -265,7 +264,7 @@ export const Employee = () => {
                                 <label>password</label>
                                 <input type="text" className='form-control' onChange={(e) => setaddress(e.target.value)} placeholder="Please enter Address" defaultValue={RowData.password}/>
                             </div>
-                            <Button type='submit' className='btn btn-warning mt-4' onClick={handleEdit}>Edit Employee</Button>
+                            <Button type='submit' className='btn btn-warning mt-4'>Edit Employee</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

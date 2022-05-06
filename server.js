@@ -26,6 +26,15 @@ app.get('/users',(req,res)=>{
      res.send(data)
     })
     })
+    app.get('/BLLIST',(req,res)=>{
+      db.collection('Bon de Livraison').find().toArray((err,data)=>{
+      if(err) 
+       res.send('Cannot fetch contacts')
+      else
+      
+       res.send(data)
+      })
+      })
     app.get('/user/:email',(req,res)=>{
       db.collection('user').find({email:req.params.email}).toArray((err,data)=>{
       if(err) 
@@ -53,6 +62,24 @@ app.get('/users',(req,res)=>{
          res.send(data)
         })
         })
+        app.get('/FournisseurByRef/:RF',(req,res)=>{
+          db.collection('Fournisseur').find({Réference:req.params.RF}).toArray((err,data)=>{
+          if(err) 
+           res.send('Cannot fetch contacts')
+          else
+          
+           res.send(data)
+          })
+          })
+          app.get('/FournisseurByName/:FR',(req,res)=>{
+            db.collection('Fournisseur').find({fournisseur:req.params.FR}).toArray((err,data)=>{
+            if(err) 
+             res.send('Cannot fetch contacts')
+            else
+            
+             res.send(data)
+            })
+            })
         app.get('/BS',(req,res)=>{
           db.collection('Bon Sortie').find().toArray((err,data)=>{
           if(err) 
@@ -143,6 +170,15 @@ app.get('/users',(req,res)=>{
         res.send('Contact added')
     })
     })
+    app.post('/add_BL',(req,res)=>{
+      let newContact = req.body
+      db.collection('Bon de Livraison').insert(newContact,(err,data)=>{
+      if(err){
+      res.send('cannot add new contact')}
+      else
+      res.send('Contact added')
+  })
+  })
     app.post('/Archive',(req,res)=>{
       let newContact = req.body
       db.collection('Archive').insert(newContact,(err,data)=>{

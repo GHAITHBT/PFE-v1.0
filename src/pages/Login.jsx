@@ -1,20 +1,17 @@
-import React,{useEffect,useState}from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { emailValidator, passwordValidator } from '../components/regexValidator';
 import {useHistory} from "react-router-dom"
-
+import axios from 'axios'
 const Login = () => {
 	const history = useHistory()
-	const [user, setuser] = useState([]);
-	const [email, setemail] = useState('');
-	
-	
-	const [input, setInput] = React.useState({ email: '', password: '' });
 
+	const [input, setInput] = React.useState({ email: '', password: '' });
+	const [user, setuser] =useState([])
 	const [errorMessage, seterrorMessage] = React.useState('');
 	const [successMessage, setsuccessMessage] = React.useState('');
 
-	const handleChange = e => {
+
+const handleChange = e => {
 		setInput({ ...input, [e.target.name]: e.target.value });
 		const url="http://localhost:5001/user/"+input.email
 		console.log(input.email)
@@ -23,7 +20,6 @@ const Login = () => {
 		  console.log(user.email)
 		})
 	};
-
 	React.useEffect(()=>{
 		if(localStorage.getItem('auth')) history.push('/')
 	},[])
@@ -37,23 +33,23 @@ const Login = () => {
 			return seterrorMessage(
 				'Password should have minimum 8 character with the combination of uppercase, lowercase, numbers and specialcharaters'
 			);
-			
 		// setsuccessMessage('Successfully Validated');
-		setemail(input.email)
-					console.log(input.email)
-					console.log(input.password)
-
+		if(user.email==input.email && user.password==input.password && user.Role=="Admin"){
 		history.push('/App')
-		localStorage.setItem('auth', true)
+		localStorage.setItem('auth', true)}
+		else{
+			history.push('/EMPINTERFACE')
+			localStorage.setItem('auth', true)	
+		}
 
-	};
+	  };
 
 	return (
 		<div>
 			<div className="limiter">
-				<div className="container-login100" style={{ backgroundImage: 'url("images/bg-02.jpg")' }}>
+				<div className="container-login100" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>
 					<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-						<form className="login100-form validate-form" onSubmit={history.push('/App')}>
+						<form className="login100-form validate-form" onSubmit={formSubmitter}>
 							<span className="login100-form-title p-b-49">Login</span>
 							{errorMessage.length > 0 && <div style={{ marginBottom: '10px', color: 'red' }}>{errorMessage}</div>}
 							{successMessage.length > 0 && (
@@ -93,14 +89,15 @@ const Login = () => {
                 <a href="#" className="txt2">
                   Sign Up
                 </a>
-              </div> */}
-						</form>
-					</div>
-				</div>
-			</div>
-			<div id="dropDownSelect1" />
-		</div>
-	);
+							</div> */}
+			  </form>
+			  </div>
+		  </div>
+	  </div>
+	  <div id="dropDownSelect1" />
+  </div>
+);
 };
 
 export default Login;
+

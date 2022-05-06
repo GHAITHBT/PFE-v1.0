@@ -16,9 +16,15 @@ const [fullscreen, setFullscreen] = useState(true);
 
     const [DataFour, setDataFour] = useState([]);
     const [Four, setFour] = useState([]);
+    const [Matricule, setMatricule] = useState("");
+
     const [Adresse, setAdresse] = useState("");
     const [Téléphone, setTéléphone] = useState(0);
     const [DataBS, setDataBS] = useState([]);
+    const [DateBL, setDateBL] = useState();
+    const [NUMBL, setNUMBL] = useState();
+    const [Articles, setArticles] = useState([]);
+
     const [Date, setDate] = useState();
     const [RowData, SetRowData] = useState([])
     const [ViewShow, SetViewShow] = useState(false)
@@ -78,7 +84,9 @@ const [fullscreen, setFullscreen] = useState(true);
     //Id for update record and Delete
     const [idFour,setIdFour] = useState("");
 
-    
+    const ArticleBL = function(CodeArticle, Description,PrixAchat,Quantité) {
+        
+        return {CodeArticle, Description,PrixAchat,Quantité}}
    /************************************************************************************************************/
     /************************************************************************************************************/
     function GetArticlebyid ()  {
@@ -120,6 +128,7 @@ const [fullscreen, setFullscreen] = useState(true);
                         console.log('url is ',url)
                         console.log('car in req',CAR)
                     console.log('Fournisseur called')
+                    setCodeArticle(result.CodeArticle)
                 })
                 .catch(err => {
                     console.log(err)
@@ -127,6 +136,50 @@ const [fullscreen, setFullscreen] = useState(true);
                 
         }
  /************************************************************************************************************/   /************************************************************************************************************/
+ function GetFournisseurDataByName  ()  {
+    //here we will get all employee data
+    const url = `http://169.254.160.216:5001/FournisseurByName/`+fournisseur
+    axios.get(url)
+        .then(response => {
+            const result = response.data;
+            setfournisseur(result.fournisseur)
+            setRéference(result.Réference)
+            setAdresse(result.Adresse)
+            setTéléphone(result.Téléphone)
+            console.log(fournisseur)
+            console.log(Réference)
+            console.log(Adresse)
+            console.log(Téléphone)
+            console.log('GetFournisseurDataByName')
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        
+}
+/************************************************************************************************************/   /************************************************************************************************************/
+function GetFournisseurDataByRef  ()  {
+    //here we will get all employee data
+    const url = `http://169.254.160.216:5001/FournisseurByRef/`+Réference
+    axios.get(url)
+        .then(response => {
+            const result = response.data;
+            setfournisseur(result.fournisseur)
+            setRéference(result.Réference)
+            setAdresse(result.Adresse)
+            setTéléphone(result.Téléphone)
+            console.log('GetFournisseurDataByRef')
+            console.log(fournisseur)
+            console.log(Réference)
+            console.log(Adresse)
+            console.log(Téléphone)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        
+}
+/************************************************************************************************************/   /************************************************************************************************************/
         const AddBS = () => {
             const url = 'http://169.254.160.216:5001/add_BS'
             const Credentials = { CodeArticle, Description,fournisseur,Quantité}
@@ -195,7 +248,7 @@ const [fullscreen, setFullscreen] = useState(true);
     /************************************************************************************************************/
     const handleFourn = () => {
         const url = 'http://169.254.160.216:5001/add_Fournisseur'
-        const Credentials = { fournisseur, Réference,Adresse, Téléphone,CodeArticle}
+        const Credentials = { fournisseur,Matricule, Réference,Adresse, Téléphone,CodeArticle}
         axios.post(url, Credentials)
             .then(response => {
                 const result = response.data;
@@ -208,6 +261,23 @@ const [fullscreen, setFullscreen] = useState(true);
                 console.log(err)
             })
         handleSubmite()}
+    /************************************************************************************************************/
+    /************************************************************************************************************/
+    const BLADD = () => {
+        const url = 'http://169.254.160.216:5001/add_BL'
+        const Credentials = { NUMBL,DateBL,fournisseur, Réference,Adresse, Téléphone,Articles}
+        axios.post(url, Credentials)
+            .then(response => {
+                const result = response.data;
+                const { status, message, data } = result;
+                
+                    window.location.reload()
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
  /************************************************************************************************************/
 /****************************************************************************************************/            
     const handleEditFOUR = () =>{
@@ -267,13 +337,9 @@ const [fullscreen, setFullscreen] = useState(true);
             .then(response => {
                 const result = response.data;
                 const { status, message } = result;
-                if (status !== 'SUCCESS') {
-                    alert(message, status)
-                }
-                else {
-                    alert(message)
+                
                     window.location.reload()
-                }
+                
             })
             .catch(err => {
                 console.log(err)
@@ -414,7 +480,9 @@ const [fullscreen, setFullscreen] = useState(true);
                         <Modal.Title>Ajouter Article</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Table>
+                        
+
+<Table>
                         <tr>
                                 <th> 
                                 Article
@@ -433,27 +501,40 @@ const [fullscreen, setFullscreen] = useState(true);
                                  <input type="text" className='form-control' onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
                                  </td>
                              </tr>  
-                            <tr>
-                            
-                                <td>       
+                             <tr>
+                                 <td>
                                  <input type="email" className='form-control' onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
                                  </td>
-                                 <td>
-                                <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
+                                 <td>       
+                                
+                                <input type="text" className='form-control' onChange={(a) => setMatricule(a.target.value)} placeholder="Matricule" />
                                 </td>
-                            </tr>
+                                 </tr>
                             <tr>
-                                <td>
+                            
+                               
+                                 <td>
+                                
                                 <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" />
                                 </td>
+                                <td>
+
+<input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
+</td>
+                                
+                            </tr>
+                            <tr>
+                            <td>
+                                <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Prix Vente" />
+                                </td>
+                               
                                 <td>
                                 <input type="email" className='form-control' onChange={(a) => setAdresse(a.target.value)} placeholder="Adresse" />
                          </td>
                         </tr>
-                            <tr>
-                                <td>
-                                <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Prix Vente" />
-                                </td>
+                            
+                                <tr>
+                                    <td></td>
                                 <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Téléphone" /></td>
                                 </tr>
                             
@@ -483,6 +564,9 @@ const [fullscreen, setFullscreen] = useState(true);
                         <div>
                             <div className='form-group'>
                                 <input type="text" className='form-control' onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
+                            </div>
+                            <div className='form-group mt-3'>
+                                <input type="email" className='form-control' onChange={(a) => setMatricule(a.target.value)} placeholder="Matricule fiscale" />
                             </div>
                             <div className='form-group mt-3'>
                                 <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
@@ -515,10 +599,10 @@ const [fullscreen, setFullscreen] = useState(true);
                     onHide={hanldePostCloseBL}
                     backdrop="static"
                     keyboard={false}
-                    size="xl"
-                       >
+                  //  fullscreen={true}     
+                    size={"lg"}                  >
                     <Modal.Header closeButton>
-                        <Modal.Title>Bon Livraison</Modal.Title>
+                        <Modal.Title>Bon de Livraison</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
@@ -527,64 +611,77 @@ const [fullscreen, setFullscreen] = useState(true);
                                 
                             <tr>
                                 <td> 
-                                <input type="text" className='form-control' onChange={(e) => setCodeArticle(e.target.value)} placeholder="N° " />
+                                <input type="text" className='form-control' onChange={(e) => setNUMBL(e.target.value)} placeholder="N° " />
+                            
+                                 </td>
+                                 <td> 
+                                <input type="text" className='form-control' onChange={(e) => setDateBL(e.target.value)} placeholder="Date" />
                             
                                  </td>
                                  </tr>
-                                 <td>
-                                 <input type="text" className='form-control' onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
+                                 <td colSpan={2}>
+                                 <input type="text" className='form-control' value={fournisseur} onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
                                  </td>
                             <tr>
                             
                                
-                                 <td>
-                                <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
+                                 <td colSpan={2}>
+                                <input type="email" className='form-control' value={Réference} onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
                                 </td>
                             </tr>
                             <tr>
                                 
-                                <td>
-                                <input type="email" className='form-control' onChange={(a) => setAdresse(a.target.value)} placeholder="Adresse" />
+                                <td colSpan={2}>
+                                <input type="email" className='form-control'  onChange={(a) => setAdresse(a.target.value)} value={Adresse} placeholder="Adresse" />
                          </td>
                         </tr>
                             <tr>
                                 
-                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Téléphone" /></td>
+                                <td colSpan={2}> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} value={Téléphone} placeholder="Téléphone" /></td>
                                 </tr>
                                 </Table>
                                 <Table>
                                 <tr><th>Article</th></tr>
                                 <tr>
-                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Code Article" /></td>
-                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Description" /></td>
-                                <td> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} placeholder="Prix Achat" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setCodeArticle(a.target.value)} placeholder="Code Article" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setDescription(a.target.value)} placeholder="Description" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setQuantité(a.target.value)} placeholder="
+                                Quantité" /></td>
                                 </tr>
-                            
+                                <tr>
+                                <td colSpan={4} align='right'> <Button id='aj' size='sm' variant='dark' onClick={()=> {Articles.push([CodeArticle,Description,PrixAchat,Quantité])}}>Ajouter</Button></td>
+                                {console.log('testing articles',Articles)}
+                                
+                                
+                                </tr>
+                            </Table>
+                            <table className='table table-striped table-hover table-bordered'>
+                            <thead>
+                            <tr>
+                                <th >code Article</th>
+                                <th >Description</th>
+                                <th>Prix Achat</th>
+                                <th>Quantité </th>
+                                
+                            </tr>
+                        </thead>
                                 <tbody>
-                            {Data?.map((item) =>
+                            {Articles?.map((item) =>
                                 <tr key={item._id}>
-                                    <td>{item.CodeArticle}</td>
-                                    <td>{item.Description}</td>
-                                    <td>{item.Description}</td>
-                                    <td>{item.Description}</td>
-
-                                    <td> <Button id='aj' size='sm' variant='dark' onClick={()=> {handleListFour( SetRowData(item),idtest=item._id,console.log('id',idtest),GetArticlebyid())}}>Afficher les fournisseurs</Button></td>
-
-
-                                    <td style={{ minWidth: 190 }}>
-                                       <center>
-                                        <Button size='sm' variant='secondary' onClick={()=> {handleEditFOUR(SetRowData(item),setId(item._id))}}>Edit</Button>|
-                                        <Button size='sm' variant='secondary' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>
-                                        </center>
-                                    </td>
+                                    <td>{item[0]}</td>
+                                    <td>{item[1]}</td>
+                                    <td>{item[2]}</td>
+                                    <td>{item.[3]}</td>
+                                    
                                     
                                 </tr>
                             )}
                         </tbody>
-                            <Button type='submit' className='btn btn-success mt-4' onClick={handleFourn}> Ajouter</Button>
+                           
                         
-                        </Table>
-                            <Button type='submit' className='btn btn-success mt-4' onClick={handleBL}> Valider</Button>
+                        </table>
+                            <Button type='submit' className='btn btn-success mt-4' onClick={BLADD}> Valider</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
@@ -774,10 +871,11 @@ const [fullscreen, setFullscreen] = useState(true);
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                        <Table table table-striped table-hover table-bordered variant='dark'>
+                        <table className='table table-striped table-hover table-bordered'>
                         <thead>
                             <tr>
                                 <th>Fournisseur</th>
+                                <th>Matricule fiscale</th>
                                 <th>Réference</th>
                                 <th>Adresse</th>
                                 <th>Téléphone</th>
@@ -788,18 +886,19 @@ const [fullscreen, setFullscreen] = useState(true);
                             {Four.map((item) =>
                                 <tr key={item._id}>
                                     <td>{item.fournisseur}</td>
+                                    <td>{item.Matricule}</td>
                                     <td>{item.Réference}</td>
                                     <td>{item.Adresse}</td>
                                     <td>{item.Téléphone}</td>
                                     <td style={{ minWidth: 190 }}>
-                                        <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
-                                        <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
-                                        <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
+                                        <Button size='sm' variant='dark' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
+                                        <Button size='sm' variant='dark' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='dark' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
                                     </td>
                                 </tr>
                             )}
                         </tbody>
-                    </Table>
+                    </table>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
