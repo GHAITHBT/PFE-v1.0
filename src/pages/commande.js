@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, ModalTitle,Table } from 'react-bootstrap'
 import axios from 'axios'
 
-export const BL = () => {
+export const CM = () => {
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()} ${current.getHours()}:${current.getMinutes()}`;
     const [fournisseur, setfournisseur] = useState("")
@@ -23,7 +23,7 @@ export const BL = () => {
     const [Téléphone, setTéléphone] = useState(0);
     const [DataBS, setDataBS] = useState([]);
     const [DateBL, setDateBL] = useState();
-    const [NUMBL, setNUMBL] = useState();
+    const [Etat, setEtat] = useState();
     const [Articles, setArticles] = useState([]);
     const handleViewShow = () => { SetViewShow(true) }
     const hanldeViewClose = () => { SetViewShow(false) }
@@ -56,7 +56,7 @@ export const BL = () => {
     const [id,setId] = useState("");
     const GetEmployeeData = () => {
         //here we will get all employee data
-        const url = 'http://169.254.160.216:5001/BLLIST'
+        const url = 'http://169.254.160.216:5001/COMLIST'
         axios.get(url)
             .then(response => {
                 const result = response.data;
@@ -70,9 +70,9 @@ export const BL = () => {
             })
     }
     
-    const BLADD = () => {
-        const url = 'http://169.254.160.216:5001/add_BL'
-        const Credentials = { NUMBL,DateBL,fournisseur, Réference,Adresse, Téléphone,Articles,date}
+    const COMADD = () => {
+        const url = 'http://169.254.160.216:5001/add_COM'
+        const Credentials = {fournisseur, Réference,Articles,date,Etat}
         axios.post(url, Credentials)
             .then(response => {
                 const result = response.data;
@@ -92,38 +92,33 @@ export const BL = () => {
         GetEmployeeData();
     }, [])
     return (
-        <div>
+        <div class="p-3 " >
             <div>
                
             </div>
             <div>
-            <span style={{marginLeft: '30px'}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
-                    Bon Livraison
+            <span style={{marginLeft: '550px',marginBottom:"50px"}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
+                Commande
                     </Button></span>
+                   <hr></hr> 
                     </div>
-            <div>
+            <div style={{marginTop:"30px"}}>
                 <div className='table-responsive'>
                     <table className='table table-striped table-hover table-bordered'>
                         <thead>
                             <tr>
-                                <th>N°</th>
-                                <th>Date de bon de Livraison</th>
+                                <th>Numéro de commande</th>
                                 <th>Date de creation</th>
-                                <th>Fournisseur</th>
-                                <th>Réference</th>
-                                <th>Matricule fiscale</th>
+                                <th>Etat</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {Data.map((item) =>
                                 <tr key={item._id}>
-                                    <td>{item.NUMBL}</td>
-                                    <td>{item.DateBL}</td>
+                                    <td>{item._id}</td>
                                     <td>{item.date}</td>
-                                    <td>{item.phoneNumber}</td>
-                                    <td>{item.fournisseur}</td>
-                                    <td>{item.Réference}</td>
+                                    <td>{item.Etat}</td>
                                     <td style={{ minWidth: 190 }}>
                                         <Button size='sm' variant='dark' onClick={() => { handleViewShow(SetRowData(item)) }}>ouvrir</Button>|
                                         <Button size='sm' variant='dark' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>
@@ -145,7 +140,7 @@ export const BL = () => {
                     size={"lg"}
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Bon De Livraison</Modal.Title>
+                        <Modal.Title>Bon De Commande</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
@@ -155,47 +150,26 @@ export const BL = () => {
                        <tr>
                            <td> 
                               <b> Numéro de bon </b>
-                           <input type="text" className='form-control'  placeholder="N° " value={RowData.NUMBL} readOnly/>
+                           <input type="text" className='form-control'  placeholder="N° " value={RowData._id} readOnly/>
                        
                             </td>
                             <td> 
                                 <b>Date</b>
-                           <input type="text" className='form-control'  placeholder="Date"value={RowData.DateBL}readOnly />
+                           <input type="text" className='form-control'  placeholder="Date"value={RowData.date}readOnly />
                        
                             </td>
                             </tr>
                             
-                            <td colSpan={2}>
-                           <b> Fournisseur</b>
-                            <input type="text" className='form-control' value={RowData.fournisseur}  placeholder="Fournisseur" readOnly />
-                            </td>
-                       <tr>
+                      
                        
-                          
-                            <td colSpan={2}>
-                              <b>  Réference </b>
-                           <input type="email" className='form-control' value={RowData.Réference}  placeholder="Réference" readOnly />
-                           </td>
-                       </tr>
-                       <tr>
-                           
-                           <td colSpan={2}>
-                              <b> Adresse</b>
-                           <input type="email" className='form-control'  value={RowData.Adresse} placeholder="Adresse" readOnly />
-                    </td>
-                   </tr>
-                       <tr>
-                           
-                           <td colSpan={2}> <b>Numéro Téléphone</b>
-                           <input type="text" className='form-control'  value={RowData.Téléphone} placeholder="Téléphone"readOnly /></td>
-                           </tr>
                            </Table>
                            <Table>
                             <thead>
                             <tr>
                                 <th >code Article</th>
                                 <th >Description</th>
-                                <th>Prix Achat</th>
+                                <th >Fournisseur</th>
+                                <th>Prix </th>
                                 <th>Quantité </th>
                                 
                             </tr>
@@ -205,8 +179,10 @@ export const BL = () => {
                                 <tr key={item._id}>
                                     <td>{item[0]}</td>
                                     <td>{item[1]}</td>
+                                    <td>{item[4]}</td>
                                     <td>{item[2]}</td>
-                                    <td>{item.[3]}</td>
+                                    <td>{item[3]}</td>
+                                    
                                     
                                     
                                 </tr>
@@ -287,11 +263,11 @@ export const BL = () => {
                         <div>
                             <div className='form-group'>
                                 <label>Name</label>
-                                <input type="text" className='form-control' onChange={(e) => setfullName(e.target.value)} placeholder="Please enter Name" defaultValue={RowData.fullName}/>
+                                <input type="text" className='form-control' onChange={(e) => setfullName(e.target.value)} placeholder="Please enter Name" defaultValue={RowData._id}/>
                             </div>
                             <div className='form-group mt-3'>
                                 <label>Email</label>
-                                <input type="email" className='form-control' onChange={(e) => setemail(e.target.value)} placeholder="Please enter email" defaultValue={RowData.email} />
+                                <input type="email" className='form-control' onChange={(e) => setemail(e.target.value)} placeholder="Please enter email" defaultValue={RowData.date} readOnly/>
                             </div>
                             <div className='form-group mt-3'>
                                 <label>Number</label>
@@ -323,53 +299,31 @@ export const BL = () => {
                   //  fullscreen={true}     
                     size={"lg"}                  >
                     <Modal.Header closeButton>
-                        <Modal.Title>Bon de Livraison</Modal.Title>
+                        <Modal.Title>Bon de Commande</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                        <Table>         
-                            <tr>
-                                <td> 
-                                <input type="text" className='form-control' onChange={(e) => setNUMBL(e.target.value)} placeholder="N° " />
-                            
-                                 </td>
-                                 <td> 
-                                <input type="text" className='form-control' onChange={(e) => setDateBL(e.target.value)} placeholder="Date" />
-                            
-                                 </td>
-                                 </tr>
-                                 <td colSpan={2}>
-                                 <input type="text" className='form-control' value={fournisseur} onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" />
-                                 </td>
-                            <tr>
-                            
-                               
-                                 <td colSpan={2}>
-                                <input type="email" className='form-control' value={Réference} onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
-                                </td>
-                            </tr>
-                            <tr>
+                        <Table>
+                                <tr><th>Fournisseur</th></tr>
+                                <tr>
+                                <td> <input type="text" className='form-control' onChange={(a) => setfournisseur(a.target.value)} placeholder="Fournisseur" /></td>
+                                <td> <input type="text" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Description" /></td>
+                              </tr> 
                                 
-                                <td colSpan={2}>
-                                <input type="email" className='form-control'  onChange={(a) => setAdresse(a.target.value)} value={Adresse} placeholder="Adresse" />
-                         </td>
-                        </tr>
-                            <tr>
-                                
-                                <td colSpan={2}> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} value={Téléphone} placeholder="Téléphone" /></td>
-                                </tr>
-                                </Table>
+                            </Table>
+                        
                                 <Table>
                                 <tr><th>Article</th></tr>
                                 <tr>
                                 <td> <input type="text" className='form-control' onChange={(a) => setCodeArticle(a.target.value)} placeholder="Code Article" /></td>
                                 <td> <input type="text" className='form-control' onChange={(a) => setDescription(a.target.value)} placeholder="Description" /></td>
                                 <td> <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" /></td>
+                                
                                 <td> <input type="text" className='form-control' onChange={(a) => setQuantité(a.target.value)} placeholder="
                                 Quantité" /></td>
                                 </tr>
                                 <tr>
-                                <td colSpan={4} align='right'> <Button id='aj' size='sm' variant='dark' onClick={()=> {Articles.push([CodeArticle,Description,PrixAchat,Quantité])}}>Ajouter</Button></td>
+                                <td colSpan={4} align='right'> <Button id='aj' size='sm' variant='dark' onClick={()=> {Articles.push([CodeArticle,Description,PrixAchat,Quantité,fournisseur])}}>Ajouter</Button></td>
                                 {console.log('testing articles',Articles)}
                                 
                                 
@@ -380,6 +334,7 @@ export const BL = () => {
                             <tr>
                                 <th >code Article</th>
                                 <th >Description</th>
+                                <th>Fournisseur</th>
                                 <th>Prix Achat</th>
                                 <th>Quantité </th>
                                 
@@ -390,17 +345,24 @@ export const BL = () => {
                                 <tr key={item._id}>
                                     <td>{item[0]}</td>
                                     <td>{item[1]}</td>
+                                    <td>{item[4]}</td>
                                     <td>{item[2]}</td>
                                     <td>{item[3]}</td>
+
                                     
                                     
                                 </tr>
                             )}
                         </tbody>
-                           
-                        
+                            
                         </table>
-                            <Button type='submit' className='btn btn-success mt-4' onClick={BLADD}> Valider</Button>
+                        <div className='form-group mt-3'>
+                            <b> Etat</b> : <br></br>
+                                <input type="radio" value="En Cours"  style={{marginLeft:"150px"}} onChange={(e) => setEtat(e.target.value)}/><b>Commande en Cours</b> 
+                                <input type="radio" value="Expidée"  style={{marginLeft:"20px"}} onChange={(e) => setEtat(e.target.value)}/><b>Commande Expidée</b>
+
+                            </div>
+                            <Button type='submit' className='btn btn-success mt-4' onClick={COMADD}> Valider</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

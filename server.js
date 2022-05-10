@@ -35,7 +35,16 @@ app.get('/users',(req,res)=>{
        res.send(data)
       })
       })
-    app.get('/user/:email',(req,res)=>{
+      app.get('/COMLIST',(req,res)=>{
+        db.collection('Commande').find().toArray((err,data)=>{
+        if(err) 
+         res.send('Cannot fetch contacts')
+        else
+        
+         res.send(data)
+        })
+        })
+    app.get('/usekjjhhr/:email',(req,res)=>{
       db.collection('user').find({email:req.params.email}).toArray((err,data)=>{
       if(err) 
        res.send('Cannot fetch contacts')
@@ -62,6 +71,24 @@ app.get('/users',(req,res)=>{
          res.send(data)
         })
         })
+        app.get('/User/:login', (req, res) => {
+          db.collection('user').findOne(
+            { email:req.params.login },
+            (err, data) => {
+              if (err) res.send('cannot fetch contact')
+              else res.send(data)
+            },
+          )
+        })
+        app.get('/utilisateur/:login',(req,res)=>{
+          db.collection('user').findOne({email:req.params.login}).then((err,data)=>{
+          if(err) 
+           res.send('Cannot fetch contacts')
+          else
+          
+           res.send(data)
+          })
+          })
         app.get('/FournisseurByRef/:RF',(req,res)=>{
           db.collection('Fournisseur').find({Réference:req.params.RF}).toArray((err,data)=>{
           if(err) 
@@ -179,6 +206,15 @@ app.get('/users',(req,res)=>{
       res.send('Contact added')
   })
   })
+  app.post('/add_COM',(req,res)=>{
+    let newContact = req.body
+    db.collection('Commande').insert(newContact,(err,data)=>{
+    if(err){
+    res.send('cannot add new contact')}
+    else
+    res.send('Contact added')
+})
+})
     app.post('/Archive',(req,res)=>{
       let newContact = req.body
       db.collection('Archive').insert(newContact,(err,data)=>{

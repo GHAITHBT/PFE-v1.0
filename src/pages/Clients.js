@@ -106,17 +106,17 @@ export const Clients = () => {
         GetClientData();
     }, [])
     return (
-        <div class="p-3 mb-2 bg-gradient-primary text-white" >
+        <div class="p-3 mb-2 " >
             <div >
                 <div>
-                    <Button variant='primary' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
+                    <Button variant='dark' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
                         Add New Employee
                     </Button>
                 </div>
             </div>
             <div >
                 <div className='table-responsive'>
-                    <Table bordered variant="dark">
+                <table className='table table-striped table-hover table-bordered'>
                         <thead>
                             <tr>
                                 <th>fullName</th>
@@ -142,14 +142,14 @@ export const Clients = () => {
 
                                     
                                     <td style={{ minWidth: 190 }}>
-                                        <Button size='sm' variant='primary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
-                                        <Button size='sm' variant='warning' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
-                                        <Button size='sm' variant='danger' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
+                                        <Button size='sm' variant='secondary' onClick={() => { handleViewShow(SetRowData(item)) }}>View</Button>|
+                                        <Button size='sm' variant='secondary' onClick={()=> {handleEditShow(SetRowData(item),setId(item._id))}}>Edit</Button>|
+                                        <Button size='sm' variant='secondary' onClick={() => {handleViewShow(SetRowData(item),setId(item._id), setDelete(true))}}>Delete</Button>|
                                     </td>
                                 </tr>
                             )}
                         </tbody>
-                    </Table>
+                    </table>
                 </div>
             </div>
             {/* View Modal */}

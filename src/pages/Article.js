@@ -13,7 +13,6 @@ var CodeA=''
 console.log("codeA now ",CodeA)
 //var idtest=''
 const [fullscreen, setFullscreen] = useState(true);
-
     const [DataFour, setDataFour] = useState([]);
     const [Four, setFour] = useState([]);
     const [Matricule, setMatricule] = useState("");
@@ -372,27 +371,27 @@ function GetFournisseurDataByRef  ()  {
     return (
         <div>
             <div>
+                
                 <div  style={{marginLeft: '390px',marginTop: '10px'}}>
                     <Button variant='dark' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
                         Ajouter Article
                     </Button>
                    
                     
-                    <span style={{marginLeft: '30px'}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
-                    Bon Livraison
-                    </Button></span>
+                   
                     <span style={{marginLeft: '30px'}}>  <Button variant='dark' onClick={() => { handlePostShowBS() }}><i className='fa fa-plu'></i>
                     Bon de sortie
                     </Button></span>
 
                 </div>
+                <hr></hr>
             </div>
             <div >
                 <div className='table-responsive'>
                     <table className='table table-striped table-hover table-bordered'>
                         <thead>
                             <tr>
-                                <th >code Article</th>
+                                <th >Code Article</th>
                                 <th >Description</th>
                                 <th>Quantité Stock</th>
                                 <th>Vente</th>
@@ -593,7 +592,7 @@ function GetFournisseurDataByRef  ()  {
 
 {/*****************************************************************************************************************/}
 
-<div className='model-box-view'>
+{/*<div className='model-box-view'>
                 <Modal
                     show={ViewPostBL}
                     onHide={hanldePostCloseBL}
@@ -689,8 +688,8 @@ function GetFournisseurDataByRef  ()  {
                     </Modal.Footer>
                 </Modal>
                 </div>
-
-                
+*/
+                            }            
 {/*****************************************************************************************************************/} 
 
 {/*****************************************************************************************************************/}

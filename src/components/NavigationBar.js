@@ -18,16 +18,15 @@ function Navbar() {
     <>
       <IconContext.Provider value={{ color: '#fff' }}>
         <div className='navbar'>
-        
           <Link to='#' className='menu-bars'>
             <FaIcons.FaBars style={{color:"white"}} onClick={showSidebar} />
           </Link>
           <ul>
-            <span style={{color:'white',fontSize:"30px",marginLeft:"500px",fontFamily:"Brush Script MT"}}>T.E.A</span>
+            <span style={{color:'white',fontSize:"38px",marginLeft:"550px",fontFamily:"Brush Script MT",fontWeight:"bold"}}>T.E.A</span>
             <li>
           <Link to='#' >
-          <AiIcons.AiOutlineLogout style={{marginLeft: '1160px',color:"black"}}onClick={()=>history.push('/')}/>
-          <span style={{color:'white'}}>Log Out</span> </Link></li></ul>
+          <AiIcons.AiOutlineLogout style={{marginLeft: '900px',color:"black"}}onClick={()=>history.push('/')}/>
+          <span style={{color:'black'}}>Log Out</span> </Link></li></ul>
         </div>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
           <ul className='nav-menu-items' onClick={showSidebar}>

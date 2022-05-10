@@ -166,26 +166,26 @@ const handleDelete = () =>{
 return(
     <div>
          
-    <Table striped bordered hover variant="info">
+         <table className='table table-striped table-hover table-bordered'>
 
-    <tr  class="p-3 mb-2 bg-secondary text-white">
-      <td style={{'width': '500px'}}><b>CodeArticle</b></td>
+    <tr style={{'height': '5px'}} >
+      <th style={{'width': '500px'}}><b>CodeArticle</b></th>
       <td><input type="text" className='form-control' placeholder='Code Article' value={val} onChange={(e) => setCodeArticle(e.target.value)+GetDataBS()+GetFRData()}/></td>
     </tr>
-    <tr class="p-3 mb-2 bg-info text-white">
-      <td><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Fournisseur</span></b></td>
+    <tr c>
+      <th><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Fournisseur</span></b></th>
       <td><input type="text" className='form-control' placeholder='Fournisseur 'value={val} onChange={(e) => setfournisseur(e.target.value)+GetDataBS()+GetFRData()} /></td>
     </tr>
-    <tr class="p-3 mb-2 bg-secondary text-white">
-      <td><b><span style={{fontFamily:"lucida grande",fontSize:"20px"}}> Quantité </span></b></td>
+    <tr >
+      <th><b><span style={{fontFamily:"lucida grande",fontSize:"20px"}}> Quantité </span></b></th>
       <td><input type="number" className='form-control' placeholder='Quantité ' value={val} onChange={(e) => setQuantitéVN(e.target.value)+GetDataBS()+GetFRData()}/></td>
     </tr>
-    <tr class="p-3 mb-2 bg-info text-white">
-      <td><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Remise %</span></b></td>
+    <tr >
+      <th><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Remise %</span></b></th>
       <td><input type="text" className='form-control' placeholder='Remise % 'value={val} onChange={(e) => setRemise(e.target.value)+GetDataBS()+GetFRData()} /></td>
     </tr>
-    <tr  class="p-3 mb-2 bg-secondary text-dark">
-    <Table striped  hover variant="warning">
+    <tr>
+    <table className='table table-striped table-hover table-bordered'>
     <tbody style={{'height': '310px', 'overflow':'scroll', 'display': 'block'}}>
 
                         <thead>
@@ -215,11 +215,11 @@ return(
                             )}
                         </tbody>
                        </tbody> 
-                    </Table>
-                    <td align='center'><Button variant='primary' onClick={() => {Click()}}><i className='fa fa-plu'></i>
+                    </table>
+                    <td align='center'><Button variant='dark' onClick={() => {Click()}}><i className='fa fa-plu'></i>
                         Ajouter Article
                     </Button><br/><br/>
-                    <Button style={{'width': '700px'}}variant='success' onClick={() => {handleViewShow()}}><i className='fa fa-plu'></i>
+                    <Button style={{'width': '700px'}}variant='dark' onClick={() => {handleViewShow()}}><i className='fa fa-plu'></i>
                     PAYER
                     </Button>
                    
@@ -230,11 +230,11 @@ return(
                     <marquee> <b class="text-warning">TW KI NETFAKER NUMRO TW N7OTO</b></marquee><br/></td>
                    
     </tr>
-    <tr class="p-3 mb-2 bg-info text-white">
+    <tr >
     <td><b>Total sans remise</b><br/>{Montantblabla}</td>
     <td><b>Total avec remise</b><input type="text" className='form-control' placeholder='0.0'  readOnly/></td>
     </tr>
-</Table>
+</table>
                         
 
 <div className='model-box-view'>

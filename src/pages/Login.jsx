@@ -10,34 +10,35 @@ const Login = () => {
 	const [errorMessage, seterrorMessage] = React.useState('');
 	const [successMessage, setsuccessMessage] = React.useState('');
 
-
-const handleChange = e => {
-		setInput({ ...input, [e.target.name]: e.target.value });
-		const url="http://localhost:5001/user/"+input.email
+const getUser=()=>{
+	const url=`http://169.254.160.216:5001/User/${input.email}`
 		console.log(input.email)
 		axios.get(url).then(res => {
 		  setuser(res.data);
-		  console.log(user.email)
+		 
+		  console.log("userlogin",res.data)
 		})
+}
+const handleChange = e => {
+		setInput({ ...input, [e.target.name]: e.target.value });
+		getUser()
 	};
-	React.useEffect(()=>{
-		if(localStorage.getItem('auth')) history.push('/')
-	},[])
+	
 
 	const formSubmitter = e => {
 		e.preventDefault();
 		setsuccessMessage('');
-		if (!emailValidator(input.email)) return seterrorMessage('Please enter valid email id');
-
-		if (!passwordValidator(input.password))
-			return seterrorMessage(
-				'Password should have minimum 8 character with the combination of uppercase, lowercase, numbers and specialcharaters'
-			);
+		
 		// setsuccessMessage('Successfully Validated');
-		if(user.email==input.email && user.password==input.password && user.Role=="Admin"){
+		if(user.email==input.email|| user.password==input.password || user.Role=="Admin"){
+			
 		history.push('/App')
-		localStorage.setItem('auth', true)}
-		else{
+		localStorage.setItem('auth', true)	}
+		else if(user.email==input.email|| user.password==input.password || user.Role=="Employé"){
+			console.log(input.email)
+			console.log(user.email)
+			console.log(user.password)
+			console.log(user.Role)
 			history.push('/EMPINTERFACE')
 			localStorage.setItem('auth', true)	
 		}
@@ -47,7 +48,7 @@ const handleChange = e => {
 	return (
 		<div>
 			<div className="limiter">
-				<div className="container-login100" style={{ backgroundImage: 'url("images/bg-01.jpg")' }}>
+				<div className="container-login100" style={{ backgroundImage: 'url("images/test.jpg")' }}>
 					<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 						<form className="login100-form validate-form" onSubmit={formSubmitter}>
 							<span className="login100-form-title p-b-49">Login</span>
@@ -80,7 +81,7 @@ const handleChange = e => {
 							<div className="container-login100-form-btn">
 								<div className="wrap-login100-form-btn">
 									<div className="login100-form-bgbtn" />
-									<button className="login100-form-btn">Login</button>
+									<button className="login100-form-btn" style={{ backgroundImage: 'url("images/test.jpg")' }}>Login</button>
 								</div>
 							</div>
 						

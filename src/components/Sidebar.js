@@ -17,6 +17,18 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
+    title: 'Bon de laivraison',
+    path: '/BL',
+    icon: <IoIcons.IoMdHelpCircle />,
+    cName: 'nav-text'
+  },
+  {
+    title: 'Bon de Commande',
+    path: '/Commande',
+    icon: <IoIcons.IoMdHelpCircle />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Employer',
     path: '/Employer',
     icon: <IoIcons.IoMdPeople />,
@@ -34,6 +46,7 @@ export const SidebarData = [
     icon: <FaIcons.FaEnvelopeOpenText />,
     cName: 'nav-text'
   },
+ 
   {
     title: 'Support',
     path: '/support',

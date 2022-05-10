@@ -106,9 +106,10 @@ export const Employee = () => {
         <div>
             <div>
                 <div>
-                    <Button variant='dark' onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
+                    <Button variant='dark' style={{marginLeft:"500px",marginTop:"10px"}} onClick={() => { handlePostShow() }}><i className='fa fa-plu'></i>
                         Add New Employee
                     </Button>
+                    <hr></hr>
                 </div>
             </div>
             <div>
@@ -219,7 +220,8 @@ export const Employee = () => {
                             <div className='form-group mt-3'>
                             <b> Rôle</b> : <br></br>
                                 <input type="radio" value="Admin"  style={{marginLeft:"150px"}} onChange={(e) => setRole(e.target.value)}/><b>Admin</b> 
-                                <input type="radio" value="Admin"  style={{marginLeft:"20px"}} onChange={(e) => setRole(e.target.value)}/><b>Employé</b>
+                                <input type="radio" value="Employé"  style={{marginLeft:"20px"}} onChange={(e) => setRole(e.target.value)}/><b>Employé</b>
+                                <input type="radio" value="Cassier"  style={{marginLeft:"20px"}} onChange={(e) => setRole(e.target.value)}/><b>Cassier</b>
 
                             </div>
                             
