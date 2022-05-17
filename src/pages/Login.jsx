@@ -11,7 +11,7 @@ const Login = () => {
 	const [successMessage, setsuccessMessage] = React.useState('');
 
 const getUser=()=>{
-	const url=`http://169.254.160.216:5001/User/${input.email}`
+	const url=`http://localhost:5001/User/${input.email}`
 		console.log(input.email)
 		axios.get(url).then(res => {
 		  setuser(res.data);
@@ -22,6 +22,8 @@ const getUser=()=>{
 const handleChange = e => {
 		setInput({ ...input, [e.target.name]: e.target.value });
 		getUser()
+		console.log(localStorage.auth)
+
 	};
 	
 
@@ -33,16 +35,15 @@ const handleChange = e => {
 		if(user.email==input.email|| user.password==input.password || user.Role=="Admin"){
 			
 		history.push('/App')
-		localStorage.setItem('auth', true)	}
+		localStorage.setItem('auth', false)	}
 		else if(user.email==input.email|| user.password==input.password || user.Role=="Employé"){
 			console.log(input.email)
 			console.log(user.email)
 			console.log(user.password)
 			console.log(user.Role)
 			history.push('/EMPINTERFACE')
-			localStorage.setItem('auth', true)	
+			localStorage.setItem('auth', false)	
 		}
-
 	  };
 
 	return (

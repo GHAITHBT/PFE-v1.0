@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, ModalTitle,Table } from 'react-bootstrap'
 import axios from 'axios'
+import { ProductionQuantityLimits } from '@mui/icons-material';
 
 export const BL = () => {
     const current = new Date();
@@ -13,6 +14,7 @@ export const BL = () => {
     const [Vente, setVente] = useState("")
     const [idart, setidart] = useState("")
     const [CodeArticle, setCodeArticle] = useState("")
+    const [CA_FR, setCA_FR] = useState("")
     const [CdArt, setCdArt] = useState("")
     const [Description, setDescription] = useState("")
     const [DescriptionBS, setDescriptionBS] = useState("")
@@ -56,7 +58,7 @@ export const BL = () => {
     const [id,setId] = useState("");
     const GetEmployeeData = () => {
         //here we will get all employee data
-        const url = 'http://169.254.160.216:5001/BLLIST'
+        const url = 'http://localhost:5001/BLLIST'
         axios.get(url)
             .then(response => {
                 const result = response.data;
@@ -69,9 +71,26 @@ export const BL = () => {
                 console.log(err)
             })
     }
+    const HandleQuantité = () => {
+        //here we will get all employee data
+        const url = `http://localhost:5001/QNT/${CA_FR}`
+        console.log(Quantité) 
+        const Credentials = {Quantité }
+        axios.put(url, Credentials)
+            .then(response => {
+                const result = response.data;
+                const { status, message } = result;
+
+                    console.log('function called')
+                    console.log(result)
+                
+            })
+          
+    }
+  
     
     const BLADD = () => {
-        const url = 'http://169.254.160.216:5001/add_BL'
+        const url = 'http://localhost:5001/add_BL'
         const Credentials = { NUMBL,DateBL,fournisseur, Réference,Adresse, Téléphone,Articles,date}
         axios.post(url, Credentials)
             .then(response => {
@@ -86,20 +105,31 @@ export const BL = () => {
             })
         }
    
-    
+        const validé=()=>{
+            for (let index = 0; index < Articles.length; index++) {
+                const element = Articles[index];
+                setCA_FR(element[0])
+                setQuantité(element[3])
+                console.log(element[0])
+                console.log(element[3])
+                
+                HandleQuantité()
+            }
+           
+           
+        }
     console.log(ViewShow, RowData)
     useEffect(() => {
         GetEmployeeData();
     }, [])
     return (
         <div>
-            <div>
-               
-            </div>
-            <div>
-            <span style={{marginLeft: '30px'}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
+           
+            <div  class="p-3 ">
+            <span style={{marginLeft: '550px',marginBottom:"50px"}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
                     Bon Livraison
                     </Button></span>
+                    <hr></hr> 
                     </div>
             <div>
                 <div className='table-responsive'>
@@ -111,7 +141,6 @@ export const BL = () => {
                                 <th>Date de creation</th>
                                 <th>Fournisseur</th>
                                 <th>Réference</th>
-                                <th>Matricule fiscale</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -121,8 +150,8 @@ export const BL = () => {
                                     <td>{item.NUMBL}</td>
                                     <td>{item.DateBL}</td>
                                     <td>{item.date}</td>
-                                    <td>{item.phoneNumber}</td>
                                     <td>{item.fournisseur}</td>
+
                                     <td>{item.Réference}</td>
                                     <td style={{ minWidth: 190 }}>
                                         <Button size='sm' variant='dark' onClick={() => { handleViewShow(SetRowData(item)) }}>ouvrir</Button>|
@@ -197,7 +226,6 @@ export const BL = () => {
                                 <th >Description</th>
                                 <th>Prix Achat</th>
                                 <th>Quantité </th>
-                                
                             </tr>
                         </thead>
                                 <tbody>
@@ -206,16 +234,11 @@ export const BL = () => {
                                     <td>{item[0]}</td>
                                     <td>{item[1]}</td>
                                     <td>{item[2]}</td>
-                                    <td>{item.[3]}</td>
-                                    
-                                    
+                                    <td>{item[3]}</td>
                                 </tr>
                             )}
                         </tbody>
-                           
-                        
                         </Table>
-                            
                             {
                                 Delete && (
                                     <Button type='submit' className='btn btn-danger mt-4' >Delete Employee</Button>
@@ -358,6 +381,7 @@ export const BL = () => {
                                 
                                 <td colSpan={2}> <input type="text" className='form-control' onChange={(a) => setTéléphone(a.target.value)} value={Téléphone} placeholder="Téléphone" /></td>
                                 </tr>
+                                
                                 </Table>
                                 <Table>
                                 <tr><th>Article</th></tr>
@@ -400,7 +424,7 @@ export const BL = () => {
                            
                         
                         </table>
-                            <Button type='submit' className='btn btn-success mt-4' onClick={BLADD}> Valider</Button>
+                            <Button type='submit' className='btn btn-success mt-4' onClick={validé} > Valider</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>

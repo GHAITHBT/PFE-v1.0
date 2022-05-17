@@ -93,9 +93,7 @@ export const CM = () => {
     }, [])
     return (
         <div class="p-3 " >
-            <div>
-               
-            </div>
+            
             <div>
             <span style={{marginLeft: '550px',marginBottom:"50px"}}>  <Button variant='dark' onClick={() => { handlePostShowBL() }}><i className='fa fa-plu'></i>
                 Commande

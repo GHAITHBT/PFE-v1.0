@@ -48,7 +48,7 @@ export const Employee = () => {
             })
     }
     const handleSubmite = () => {
-        const url = 'http://169.254.160.216:5001/add_user'
+        const url = 'http://localhost:5001/add_user'
         const Credentials = { fullName, email, phoneNumber, address ,password,Role}
         axios.post(url, Credentials)
             .then(response => {

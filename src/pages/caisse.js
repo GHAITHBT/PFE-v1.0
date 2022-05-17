@@ -3,7 +3,7 @@ import { Color } from 'ag-grid-community';
 import axios from 'axios';
 import React, {  useState,useEffect } from 'react';
 import Select  from 'react-select';
-import { Table,Button,Modal } from 'react-bootstrap';
+import { Table,Button,Modal,Dropdown } from 'react-bootstrap';
 import DeleteIcon from '@mui/icons-material/Send';
 import ImageButton from'react-image-button'
 export const Caisse =()=>{
@@ -14,6 +14,7 @@ const [Delete,setDelete] = useState(false)
 const [val,setVal]=useState()
 var des=""
 const [Data, setData] = useState([]);
+const [DataFr, setDataFr] = useState([]);
 const [Remise, setRemise] = useState();
 var Montantblabla;
 //const Date =`${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`
@@ -41,7 +42,7 @@ const [ViewShow, SetViewShow] = useState(false)
                      console.log("TOTAL foreach",Montantblabla)})
          
          }
-        const url2 = 'http://169.254.160.216:5001/Edit'
+        const url2 = 'http://localhost:5001/Edit'
         const Credentials = {QuantitéVN}
        await axios.put(url2, Credentials)
 .then(response => {
@@ -53,7 +54,7 @@ const [ViewShow, SetViewShow] = useState(false)
     }
      /***************************************************************************************/
      const ADDArch = async()=>{
-        const url2 = 'http://169.254.160.216:5001/Archive'
+        const url2 = 'http://localhost:5001/Archive'
         const Credentials = {Data,date}
        await axios.post(url2, Credentials)
 .then(response => {
@@ -65,7 +66,7 @@ const [ViewShow, SetViewShow] = useState(false)
     }
     /*************************************************************************************/
     async function GETDESC(){
-    const urlA = `http://169.254.160.216:5001/Article/${CodeArticle}`   
+    const urlA = `http://localhost:5001/Article/${CodeArticle}`   
    await axios.get(urlA)
       .then(response => {
           const result = response.data;
@@ -75,7 +76,7 @@ const [ViewShow, SetViewShow] = useState(false)
       })}
       /***************************************************************************************/
       const ADD = async()=>{
-        const url2 = 'http://169.254.160.216:5001/add_CAISSE'
+        const url2 = 'http://localhost:5001/add_CAISSE'
         const Credentials = {CodeArticle,Description, Fournisseur, Prix,QuantitéVN}
       await  axios.post(url2, Credentials)
 .then(response => {
@@ -86,7 +87,7 @@ const [ViewShow, SetViewShow] = useState(false)
     }
     /***************************************************************************************** */
 const GetFRData =async () => {
-       const url = `http://169.254.160.216:5001/CAISSE/${CodeArticle}/${Fournisseur}`   
+       const url = `http://localhost:5001/CAISSE/${CodeArticle}/${Fournisseur}`   
      await axios.get(url)
         .then(response => {
             const result = response.data;
@@ -97,7 +98,7 @@ const GetFRData =async () => {
 }
 /******************************************************************************************************* */
 const GetDataBS = async () => {
-    const urlg = 'http://169.254.160.216:5001/CAISSE'
+    const urlg = 'http://localhost:5001/CAISSE'
    await  axios.get(urlg)
     .then(response => {
         const result = response.data;
@@ -110,6 +111,35 @@ const GetDataBS = async () => {
 }
 
      /***************************************************************************** */   
+     const Getfour = async () => {
+        const urlg = `http://localhost:5001/Fournisseur/${CodeArticle}`
+       await  axios.get(urlg)
+        .then(response => {
+            const result = response.data;
+            setDataFr(result)                    
+               // window.location.reload()
+               console.log("data Four",DataFr)
+        })
+       
+       
+    }
+    
+         /***************************************************************************** */   
+         const Get = () => {
+           
+    for (let index = 0; index < DataFr.length; index++) {
+            const element = DataFr.Fournisseur[index];
+            return(
+                <Dropdown></Dropdown>
+            )
+        
+      }
+            }
+           
+           
+        
+        
+             /***************************************************************************** */   
 const Total= async()=>{
    /* for (let i = 0; i < Data.length-1; i++) {
         // setTotalM(parseFloat(Data[i].Prix)+parseFloat(Data[i].Prix))  
@@ -163,6 +193,10 @@ const handleDelete = () =>{
         GetDataBS()
 }
 /****************************************************************************************************************/
+useEffect(() => {
+    console.log(CodeArticle);
+    Getfour();
+  }, [CodeArticle]);
 return(
     <div>
          
@@ -170,15 +204,33 @@ return(
 
     <tr style={{'height': '5px'}} >
       <th style={{'width': '500px'}}><b>CodeArticle</b></th>
-      <td><input type="text" className='form-control' placeholder='Code Article' value={val} onChange={(e) => setCodeArticle(e.target.value)+GetDataBS()+GetFRData()}/></td>
+      <td><input type="text" className='form-control' placeholder='Code Article' value={val} onChange={(e) => setCodeArticle(e.target.value)+Getfour()}/></td>
+    </tr>
+    
+    <tr >
+      <th><b><span style={{fontFamily:"lucida grande",fontSize:"20px"}}> Quantité </span></b></th>
+      <td><input type="number" className='form-control' placeholder='Quantité ' value={val} onChange={(e) => setQuantitéVN(e.target.value)+Getfour()}/></td>
     </tr>
     <tr c>
       <th><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Fournisseur</span></b></th>
-      <td><input type="text" className='form-control' placeholder='Fournisseur 'value={val} onChange={(e) => setfournisseur(e.target.value)+GetDataBS()+GetFRData()} /></td>
-    </tr>
-    <tr >
-      <th><b><span style={{fontFamily:"lucida grande",fontSize:"20px"}}> Quantité </span></b></th>
-      <td><input type="number" className='form-control' placeholder='Quantité ' value={val} onChange={(e) => setQuantitéVN(e.target.value)+GetDataBS()+GetFRData()}/></td>
+      <td>
+      <div className="form-group">
+    <strong>{DataFr.Fournisseur}</strong>
+    <select
+     name="{DataFr.name}"
+     onChange={(e)=>setfournisseur(e.target.value)}
+    
+    >
+      <option defaultValue>Select {DataFr.Fournisseur}</option>
+      {DataFr.map((item, index) => (
+        <option key={index} value={item.id}>
+          {item.fournisseur}
+        </option>
+      ))}
+    </select>
+  </div>
+  {console.log(Fournisseur)}
+  </td>
     </tr>
     <tr >
       <th><b><span style={{color:"black",fontFamily:"lucida grande",fontSize:"20px"}}>Remise %</span></b></th>

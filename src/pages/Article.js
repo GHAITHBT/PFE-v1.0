@@ -108,7 +108,7 @@ const [fullscreen, setFullscreen] = useState(true);
         axios.get(url)
             .then(response => {
                 setData(response.data)
-                    console.log(test)
+                    console.log(Data)
                 
             })
             .catch(err => {
@@ -247,7 +247,7 @@ function GetFournisseurDataByRef  ()  {
     /************************************************************************************************************/
     const handleFourn = () => {
         const url = 'http://169.254.160.216:5001/add_Fournisseur'
-        const Credentials = { fournisseur,Matricule, Réference,Adresse, Téléphone,CodeArticle}
+        const Credentials = { fournisseur,Matricule, Réference,Adresse, Téléphone,CodeArticle,Quantité}
         axios.post(url, Credentials)
             .then(response => {
                 const result = response.data;
@@ -331,7 +331,7 @@ function GetFournisseurDataByRef  ()  {
     }
 /************************************************************************************************************/
 /************************************************************************************************************/    const handleDelete = () =>{
-        const url = `http://169.254.160.216:5001/delete_user/${id}`
+        const url = `http://169.254.160.216:5001/delete_Article/${id}`
         axios.delete(url)
             .then(response => {
                 const result = response.data;
@@ -512,25 +512,16 @@ function GetFournisseurDataByRef  ()  {
                             <tr>
                             
                                
-                                 <td>
-                                
+                                <td>
                                 <input type="text" className='form-control' onChange={(a) => setPrixAchat(a.target.value)} placeholder="Prix Achat" />
                                 </td>
-                                <td>
 
-<input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
-</td>
+                                <td>
+                                <input type="email" className='form-control' onChange={(a) => setRéference(a.target.value)} placeholder="Réference" />
+                                </td>
                                 
                             </tr>
-                            <tr>
-                            <td>
-                                <input type="text" className='form-control' onChange={(a) => setPrixVente(a.target.value)} placeholder="Prix Vente" />
-                                </td>
-                               
-                                <td>
-                                <input type="email" className='form-control' onChange={(a) => setAdresse(a.target.value)} placeholder="Adresse" />
-                         </td>
-                        </tr>
+                            
                             
                                 <tr>
                                     <td></td>

@@ -19,7 +19,7 @@ import EMPINTER from './EMPINTERFACE'
 import {BL} from'./pages/Bon_Livraison'
 ReactDOM.render(
   <React.StrictMode>
-<App/> 
+<App/>
  </React.StrictMode>,
   document.getElementById('root')
 );
